@@ -1,7 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { FcManager, FcMenu } from 'react-icons/fc';
+import { MdMenu } from 'react-icons/md';
 import { zIndexes } from './../../lib/styles/zIndexes';
+import { palette } from '../../lib/styles/palette';
+import { SiWolframlanguage } from 'react-icons/si';
+import { NavLink } from 'react-router-dom';
+import { FaUserCircle } from 'react-icons/fa';
 
 export interface IHeaderProps {
   side?: boolean;
@@ -10,45 +14,84 @@ export interface IHeaderProps {
 
 const HeaderWrapper = styled.div<{ side?: boolean }>`
   width: 100%;
-  height: 3rem;
+  height: 4rem;
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 0 1rem;
   z-index: ${zIndexes.header};
   transition: 0.5s;
-  padding-left: ${(props) => (props.side ? `calc(68px + 1rem)` : '')};
-  @media screen and (min-width: 768px) {
-    height: calc(3rem + 1rem);
-    padding: 0 2rem 0 calc(68px + 2rem);
-    padding-left: ${(props) => (props.side ? '' : `calc(68px + 188px)`)};
-  }
+  background-color: ${palette.baseBackground};
+  border-bottom: 1px solid ${palette.baseLine};
+`;
+
+const HeaderStart = styled.div`
+  display: flex;
 `;
 
 const Toggle = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 1.5rem;
   cursor: pointer;
 `;
-const Avatar = styled.a`
+const Logo = styled(NavLink)`
   display: flex;
-  svg {
-    font-size: 1.5rem;
+  color: ${palette.baseFontColor};
+  margin-left: 1rem;
+  :hover,
+  :active {
+    color: ${palette.baseFontColor};
   }
 `;
-const Name = styled.div``;
+
+const Img = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  margin-right: 0.75rem;
+`;
+const Title = styled.div`
+  font-size: 1.5rem;
+  font-weight: 700;
+`;
+
+const Avatar = styled.div`
+  display: flex;
+  align-items: center;
+  svg {
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+  }
+`;
+const Name = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${palette.baseFontColor};
+`;
 
 export default function Header({ side, setSide }: IHeaderProps) {
   console.log(side);
   return (
     <HeaderWrapper side={side}>
-      <Toggle onClick={() => setSide(!side)}>
-        <FcMenu />
-      </Toggle>
+      <HeaderStart>
+        <Toggle onClick={() => setSide(!side)}>
+          <MdMenu />
+        </Toggle>
+        <Logo to="/">
+          <Img>
+            <SiWolframlanguage />
+          </Img>
+          <Title>Toolki</Title>
+        </Logo>
+      </HeaderStart>
+
       <Avatar>
-        <FcManager />
+        <FaUserCircle />
         <Name>관리자</Name>
       </Avatar>
     </HeaderWrapper>

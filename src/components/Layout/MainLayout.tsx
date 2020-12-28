@@ -3,22 +3,24 @@ import Header from '../header/Haeder';
 import Sidebar from '../sidebar/Sidebar';
 import styled from 'styled-components';
 import { font } from './../../lib/styles/font';
-
+import { layout } from './../../lib/styles/layout';
 export interface IMainLayoutProps {
   children: React.ReactNode;
 }
 
 const Wrapper = styled.div<{ side: boolean }>`
   position: relative;
-  margin: 3rem 0 0 0;
+  margin: 5rem 0 0 0;
   padding: 0 1rem;
   font-size: ${font.normal};
   transition: 0.5s;
-
+  padding-left: ${(props) =>
+    props.side ? `calc(${layout.baseSidebarWidth} + 1rem)` : ''};
   @media screen and (min-width: 768px) {
-    margin: calc(3rem + 1rem) 0 0 0;
     padding-left: ${(props) =>
-      props.side ? `calc(68px + 2rem)` : `calc(68px + 188px)`};
+      props.side
+        ? `calc(${layout.baseSidebarWidth} + 2rem)`
+        : `calc(${layout.baseSidebarWidth} + 168px + 2rem)`};
   }
 `;
 
