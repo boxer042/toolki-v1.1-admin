@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { zIndexes } from './../../lib/styles/zIndexes';
 import { palette } from './../../lib/styles/palette';
@@ -13,14 +13,14 @@ export interface ISidebarProps {
 
 const SidebarWrapper = styled.div<{ side?: boolean }>`
   position: fixed;
-  top: 4rem;
+  top: 3rem;
   left: ${(props) => (props.side ? 0 : '-30%')};
   width: ${layout.baseSidebarWidth};
-  height: calc(100vh - 4rem);
+  height: calc(100vh - 3rem);
   padding: 0.5rem 1rem 0 0;
   transition: 0.5s;
   z-index: ${zIndexes.sidebar};
-  border-right: 1px solid ${palette.baseLine};
+
   background-color: ${palette.baseBackground};
   @media screen and (min-width: 768px) {
     width: ${(props) =>
@@ -51,10 +51,11 @@ const MenuItem = styled(NavLink)`
   svg {
     font-size: 1.25rem;
   }
-  &:hover,
+  &:hover {
+    color: ${palette.baseFontHoverAndActive};
+  }
   &.active {
-    background-color: ${palette.baseBackgroundHover};
-    color: red;
+    color: ${palette.baseFontHoverAndActive};
   }
 `;
 
