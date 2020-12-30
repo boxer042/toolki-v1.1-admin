@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { fetchAccounts } from '../../modules/accountsSlice';
 import { Table } from 'antd';
-import CustomTable from '../../components/common/CustomTable';
+import Account from '../../components/account/Account';
 import Column from 'antd/lib/table/Column';
 import PageHeader from '../../components/pageHeader/PageHeader';
 
 export interface IAccountsProps {}
 
 export default function Accounts(props: IAccountsProps) {
-  const { accounts, loading } = useSelector(
+  const { accounts, loading, error } = useSelector(
     (state: RootState) => state.accounts,
   );
 
@@ -41,8 +41,8 @@ export default function Accounts(props: IAccountsProps) {
         },
       ]}
     >
-      <CustomTable />
-      <Table rowKey={(record) => record._id} dataSource={accounts}>
+      <Account tableData={accounts} error={error} />
+      {/* <Table rowKey={(record) => record._id} dataSource={accounts}>
         <Column title="상호" dataIndex="name" key="name" />
         <Column
           title="전화번호"
@@ -61,7 +61,7 @@ export default function Accounts(props: IAccountsProps) {
           )}
         />
         <Column title="주소" dataIndex="address" key="address" />
-      </Table>
+      </Table> */}
     </PageHeader>
   );
 }

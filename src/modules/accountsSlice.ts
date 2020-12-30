@@ -1,23 +1,33 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Axios from "axios";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import Axios from 'axios';
 
-const name = "accounts";
+const name = 'accounts';
 
 export const fetchAccounts = createAsyncThunk(
   `${name}/fetchAccounts`,
   async (thunkAPI) => {
-    const res = await Axios.get("http://localhost:4000/supplier/list");
+    const res = await Axios.get('http://localhost:4000/account/list');
     return res.data;
-  }
+  },
 );
 
 export interface IAccount {
   _id: string;
   name: string;
-  address: string;
-  phoneNumber: string;
-  faxNumber: string;
-  cellphoneNumber: string;
+  contact: {
+    office: string;
+    fax: string;
+  };
+  manager: {
+    name: string;
+    position: string;
+    mobile: string;
+  };
+  detail: {
+    address: string;
+    businessNumber: string;
+    ceo: string;
+  };
   remark: string;
 }
 export interface IAccountsState {
