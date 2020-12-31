@@ -9,7 +9,7 @@ export interface IButtonProps {
   color?: ColorType;
   children: string;
   size?: ButtonSize;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const ButtonBlock = styled.button<{ color: ColorType }>`

@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
-import { FaCaretSquareDown, FaCaretSquareRight } from 'react-icons/fa';
+import {
+  FaCaretSquareDown,
+  FaCaretSquareRight,
+  FaRegFrown,
+} from 'react-icons/fa';
 import styled, { css } from 'styled-components';
 import { IAccount } from '../../modules/accountsSlice';
+import AccountDetail from './AccountDetail';
 import { palette } from './../../lib/styles/palette';
 import { replacePhone } from './../../lib/utils';
 
 export interface IAccountProps {
   accounts: IAccount[];
+  error: string | null | undefined;
 }
 
 const AccountWrapper = styled.div`
   width: 100%;
   background-color: ${palette.baseBackground};
   border-radius: 0.25rem;
-  font-size: 14px;
+  font-size: 0.95rem;
   padding: 0.75rem;
   .active {
     color: #5c7cfa;
@@ -27,7 +33,7 @@ const AccountWrapper = styled.div`
   }
   td {
     border-top: 1px solid ${palette.baseLine};
-    cursor: pointer;
+
     padding: 0.75rem 0.5rem;
   }
   svg {
@@ -46,7 +52,8 @@ const SelectedIcons = styled.span<{ active?: boolean }>`
     `}
 `;
 
-const BodyTr = styled.tr<{ active?: boolean }>`
+const TbodyContainer = styled.tr<{ active?: boolean }>`
+  cursor: pointer;
   ${(props) =>
     props.active &&
     css`
@@ -60,21 +67,33 @@ const BodyTr = styled.tr<{ active?: boolean }>`
   }
 `;
 
-const Detail = styled.tr<{ active?: boolean }>`
+const AccountDetailContainer = styled.tr<{ active?: boolean }>`
   ${(props) =>
     props.active &&
     css`
       td {
-        border: none;
+        /* border: none; */
         /* box-shadow: 0 5px 3px #f1f3f5; */
       }
       svg {
-        color: #5c7cfa;
+        color: #5c7cfa; // 안쪽 svg 바뀌는것 확인
       }
     `};
 `;
 
-export default function Account({ accounts }: IAccountProps) {
+const NoDataContainer = styled.tr`
+  text-align: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+  td {
+    padding: 2rem 0;
+  }
+  svg {
+    font-size: 5rem;
+  }
+`;
+
+export default function Account({ accounts, error }: IAccountProps) {
   const [isSelected, setIsSelected] = useState<string[]>([]);
 
   console.log(`Selectd Table ID : ${isSelected}`);
@@ -119,13 +138,21 @@ export default function Account({ accounts }: IAccountProps) {
         </thead>
         <tbody>
           {accounts.length === 0 ? (
-            <tr>
-              <td>No data</td>
-            </tr>
+            <>
+              <NoDataContainer>
+                <td colSpan={4}>
+                  <div>
+                    <FaRegFrown />
+                  </div>
+                  {error !== null ? <div>{error}</div> : <div>No data</div>}
+                </td>
+              </NoDataContainer>
+              <AccountDetail />
+            </>
           ) : (
             accounts.map((account) => (
               <React.Fragment key={account._id}>
-                <BodyTr
+                <TbodyContainer
                   active={isSelected.includes(account._id)}
                   onClick={() => handleTableSelected(account._id)}
                 >
@@ -139,9 +166,12 @@ export default function Account({ accounts }: IAccountProps) {
                   <td>{account.name}</td>
                   <td>{replacePhone(account.contact.office)}</td>
                   <td>{replacePhone(account.contact.fax)}</td>
-                </BodyTr>
+                </TbodyContainer>
+
                 {isSelected.includes(account._id) ? (
-                  <Detail active={isSelected.includes(account._id)}>
+                  <AccountDetailContainer
+                    active={isSelected.includes(account._id)}
+                  >
                     <td colSpan={4}>
                       <div>
                         <div>당담자 : {account.manager.name}</div>
@@ -152,7 +182,7 @@ export default function Account({ accounts }: IAccountProps) {
                         <div>대표자: {account.detail.ceo}</div>
                       </div>
                     </td>
-                  </Detail>
+                  </AccountDetailContainer>
                 ) : undefined}
               </React.Fragment>
             ))

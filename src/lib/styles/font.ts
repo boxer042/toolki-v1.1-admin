@@ -1,3 +1,3 @@
 export const font = {
-  normal: "1rem",
+  normal: '0.95rem',
 };

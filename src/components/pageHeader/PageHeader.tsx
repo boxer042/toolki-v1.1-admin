@@ -48,7 +48,7 @@ const PageTitle = styled.div`
 `;
 
 const PageContents = styled.div`
-  margin: 1rem 1.5rem 0 1.5rem;
+  margin: 1rem 1rem;
 `;
 
 export default function PageHeader({

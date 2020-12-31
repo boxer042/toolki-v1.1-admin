@@ -8,7 +8,7 @@ import PageHeader from '../../components/pageHeader/PageHeader';
 export interface IAccountsProps {}
 
 export default function Accounts(props: IAccountsProps) {
-  const { accounts, loading } = useSelector(
+  const { accounts, loading, error } = useSelector(
     (state: RootState) => state.accounts,
   );
 
@@ -30,16 +30,16 @@ export default function Accounts(props: IAccountsProps) {
             alert('추가');
           },
         },
-        {
-          label: '삭제',
-          color: 'gray',
-          onClick: () => {
-            alert('삭제');
-          },
-        },
+        // {
+        //   label: '삭제',
+        //   color: 'gray',
+        //   onClick: () => {
+        //     alert('삭제');
+        //   },
+        // },
       ]}
     >
-      <Account accounts={accounts} />
+      <Account accounts={accounts} error={error} />
       {/* <Table rowKey={(record) => record._id} dataSource={accounts}>
         <Column title="상호" dataIndex="name" key="name" />
         <Column

@@ -9,9 +9,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-  background-color: #f8f9fa; //gray 1
+  background-color: #f1f3f5; //gray 1
   color: ${palette.baseFontColor};
+
 }
+
 * {
   box-sizing: inherit;
 }
@@ -24,6 +26,9 @@ input, button, textarea {
 }
 html, body, #root {
   height: 100%;
+}
+h1, h2, h3 {
+  color: ${palette.baseFontColor};
 }
 `;
 
