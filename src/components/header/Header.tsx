@@ -79,7 +79,7 @@ const Name = styled.div`
 `;
 
 export default function Header({ side, setSide }: IHeaderProps) {
-  console.log(side);
+  console.log(`사이드바 : ${side}`);
   return (
     <HeaderWrapper side={side}>
       <HeaderStart>

@@ -2,15 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
 import { fetchAccounts } from '../../modules/accountsSlice';
-import { Table } from 'antd';
 import Account from '../../components/account/Account';
-import Column from 'antd/lib/table/Column';
 import PageHeader from '../../components/pageHeader/PageHeader';
 
 export interface IAccountsProps {}
 
 export default function Accounts(props: IAccountsProps) {
-  const { accounts, loading, error } = useSelector(
+  const { accounts, loading } = useSelector(
     (state: RootState) => state.accounts,
   );
 
@@ -41,7 +39,7 @@ export default function Accounts(props: IAccountsProps) {
         },
       ]}
     >
-      <Account tableData={accounts} error={error} />
+      <Account accounts={accounts} />
       {/* <Table rowKey={(record) => record._id} dataSource={accounts}>
         <Column title="상호" dataIndex="name" key="name" />
         <Column
