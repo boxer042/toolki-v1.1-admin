@@ -1,4 +1,6 @@
 export const zIndexes = {
-  sidebar: '100',
-  header: '100',
+  sidebar: '90',
+  header: '90',
+  AccountModal: '100',
+  OpaqueLayer: '95',
 };

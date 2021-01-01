@@ -3,11 +3,12 @@ import {
   configureStore,
   getDefaultMiddleware,
   ThunkAction,
-} from "@reduxjs/toolkit";
-import accountsSlice from "./accountsSlice";
+} from '@reduxjs/toolkit';
+import accountsSlice from './accountsSlice';
+import baseSlice from './baseSlice';
 
 export const store = configureStore({
-  reducer: { accounts: accountsSlice },
+  reducer: { accounts: accountsSlice, base: baseSlice },
   middleware: getDefaultMiddleware(),
 });
 

@@ -67,20 +67,6 @@ const TbodyContainer = styled.tr<{ active?: boolean }>`
   }
 `;
 
-const AccountDetailContainer = styled.tr<{ active?: boolean }>`
-  ${(props) =>
-    props.active &&
-    css`
-      td {
-        /* border: none; */
-        /* box-shadow: 0 5px 3px #f1f3f5; */
-      }
-      svg {
-        color: #5c7cfa; // 안쪽 svg 바뀌는것 확인
-      }
-    `};
-`;
-
 const NoDataContainer = styled.tr`
   text-align: center;
   cursor: pointer;
@@ -138,17 +124,14 @@ export default function Account({ accounts, error }: IAccountProps) {
         </thead>
         <tbody>
           {accounts.length === 0 ? (
-            <>
-              <NoDataContainer>
-                <td colSpan={4}>
-                  <div>
-                    <FaRegFrown />
-                  </div>
-                  {error !== null ? <div>{error}</div> : <div>No data</div>}
-                </td>
-              </NoDataContainer>
-              <AccountDetail />
-            </>
+            <NoDataContainer>
+              <td colSpan={4}>
+                <div>
+                  <FaRegFrown />
+                </div>
+                {error !== null ? <div>{error}</div> : <div>No data</div>}
+              </td>
+            </NoDataContainer>
           ) : (
             accounts.map((account) => (
               <React.Fragment key={account._id}>
@@ -169,20 +152,13 @@ export default function Account({ accounts, error }: IAccountProps) {
                 </TbodyContainer>
 
                 {isSelected.includes(account._id) ? (
-                  <AccountDetailContainer
+                  <AccountDetail
+                    accountName={account.name}
                     active={isSelected.includes(account._id)}
-                  >
-                    <td colSpan={4}>
-                      <div>
-                        <div>당담자 : {account.manager.name}</div>
-                        <div>직책 : {account.manager.position}</div>
-                        <div>휴대폰 : {account.manager.mobile}</div>
-                        <div>주소 : {account.detail.address}</div>
-                        <div>사업자번호 : {account.detail.businessNumber}</div>
-                        <div>대표자: {account.detail.ceo}</div>
-                      </div>
-                    </td>
-                  </AccountDetailContainer>
+                    contact={account.contact}
+                    manager={account.manager}
+                    detail={account.detail}
+                  />
                 ) : undefined}
               </React.Fragment>
             ))
