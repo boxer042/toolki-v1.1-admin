@@ -11,6 +11,15 @@ export const fetchAccounts = createAsyncThunk(
   },
 );
 
+export const AddAccount = createAsyncThunk(
+  `${name}/addAccount`,
+  async (inputs: any, thunkAPI) => {
+    // const res = await Axios.post('http://localhost:4000/account/add', inputs);
+    console.log(inputs);
+    return inputs;
+  },
+);
+
 export interface IAccount {
   _id: string;
   name: string;

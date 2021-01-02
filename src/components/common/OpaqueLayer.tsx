@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { zIndexes } from './../../lib/styles/zIndexes';
 
@@ -18,6 +18,10 @@ export interface IOpaqueLayerProps {
 }
 
 export default function OpaqueLayer({ visible }: IOpaqueLayerProps) {
+  useEffect(() => {
+    document.body.style.overflowY = visible ? 'hidden' : 'initial';
+  }, [visible]);
+
   if (!visible) return null;
   return <OpaqueLayerBlock visible={visible} />;
 }

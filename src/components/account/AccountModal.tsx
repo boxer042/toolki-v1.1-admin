@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { GrFormClose } from 'react-icons/gr';
+import {
+  FiBookmark,
+  FiMapPin,
+  FiPhone,
+  FiPrinter,
+  FiSmartphone,
+  FiUser,
+  FiUsers,
+} from 'react-icons/fi';
 import { zIndexes } from './../../lib/styles/zIndexes';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Select from '../common/Select';
-import { FaBuilding, FaFax } from 'react-icons/fa';
-import { MdLocationOn } from 'react-icons/md';
 import transitions from '../../lib/styles/transitions';
 
 const AccountModalBlock = styled.div<{ visible: boolean }>`
@@ -49,7 +56,7 @@ const AccountModalBlock = styled.div<{ visible: boolean }>`
       }
     }
     .footer {
-      margin-top: 1rem;
+      padding-top: 1.5rem;
       display: flex;
       justify-content: flex-end;
     }
@@ -61,13 +68,52 @@ const Contents = styled.form``;
 export interface IAccountModalProps {
   visible: boolean;
   onClose: () => void;
+  onAddAccount: () => void;
+  inputs: {
+    name: string;
+    address: string;
+    office: string;
+    fax: string;
+    manager: string;
+    position: string;
+    mobile: string;
+    businessNumber: string;
+    ceo: string;
+  };
+  setInputs: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      address: string;
+      office: string;
+      fax: string;
+      manager: string;
+      position: string;
+      mobile: string;
+      businessNumber: string;
+      ceo: string;
+    }>
+  >;
 }
 
-export default function AccountModal({ visible, onClose }: IAccountModalProps) {
-  const [name, setName] = useState('');
-  const [office, setOffice] = useState('');
-  const [fax, setFax] = useState('');
+export default function AccountModal({
+  visible,
+  onClose,
+  inputs,
+  setInputs,
+  onAddAccount,
+}: IAccountModalProps) {
   const [closed, setClosed] = useState(true);
+  const {
+    name,
+    address,
+    office,
+    fax,
+    manager,
+    position,
+    mobile,
+    businessNumber,
+    ceo,
+  } = inputs;
 
   useEffect(() => {
     let timeoutId: number | null = null;
@@ -85,6 +131,24 @@ export default function AccountModal({ visible, onClose }: IAccountModalProps) {
     };
   }, [visible]);
 
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setInputs({
+      ...inputs, // 기존의 input 객체 복사
+      [name]: value, // name키를 가진값을 value로 설정
+    });
+  };
+
+  const onSelected = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value, name } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value,
+    });
+  };
+
+  // TODO: onReset 만들어야함
+
   if (!visible && closed) return null;
   return (
     <AccountModalBlock visible={visible}>
@@ -94,52 +158,97 @@ export default function AccountModal({ visible, onClose }: IAccountModalProps) {
           <div>거래처 등록</div>
           <GrFormClose onClick={onClose} />
         </div>
-        <Contents
-          onSubmit={() => {
-            alert('임시');
-          }}
-        >
+        <Contents onSubmit={onAddAccount}>
           <Input
+            name="name"
             label="거래처명"
             placeholder="거래처명"
+            value={name}
             error=""
-            reactIcon={<FaBuilding />}
+            reactIcon={<FiUsers />}
             required
+            onChange={onChange}
           />
           <Input
+            name="address"
+            value={address}
             label="거래처 주소"
             placeholder="주소"
-            reactIcon={<MdLocationOn />}
+            reactIcon={<FiMapPin />}
+            onChange={onChange}
           />
           <Input
+            name="office"
+            value={office}
             label="사무실 전화번호"
             placeholder="사무실 전화번호"
             error=""
-            reactIcon={<FaBuilding />}
+            reactIcon={<FiPhone />}
             required
+            onChange={onChange}
           />
           <Input
+            name="fax"
+            value={fax}
             label="팩스 전화번호"
             placeholder="사무실 전화번호"
-            reactIcon={<FaFax />}
+            reactIcon={<FiPrinter />}
+            onChange={onChange}
           />
+          <div style={{ display: 'flex' }}>
+            <div style={{ flex: '1', marginRight: '0.5rem' }}>
+              <Input
+                name="manager"
+                value={manager}
+                label="담당자 이름"
+                placeholder="담당자 이름"
+                reactIcon={<FiUser />}
+                onChange={onChange}
+              />
+            </div>
+            <div style={{ flex: '1', marginLeft: '0.5rem' }}>
+              <Select
+                name="position"
+                value={position}
+                label="담당자 직급"
+                optionLabel="담당자 직급"
+                options={[
+                  '대표',
+                  '이사',
+                  '부장',
+                  '차장',
+                  '과장',
+                  '대리',
+                  '사원',
+                ]}
+                onSelected={onSelected}
+              />
+            </div>
+          </div>
           <Input
-            label="담당자 이름"
-            placeholder="담당자 이름"
-            reactIcon={<FaFax />}
-          />
-          <Input
-            label="담당자 직급"
-            placeholder="담당자 직급"
-            reactIcon={<FaFax />}
-          />
-          <Select />
-          <Input
+            name="mobile"
+            value={mobile}
             label="담당자 연락처"
             placeholder="담당자 연락처"
-            reactIcon={<FaFax />}
+            reactIcon={<FiSmartphone />}
+            onChange={onChange}
           />
-
+          <Input
+            name="businessNumber"
+            value={businessNumber}
+            label="사업자등록번호"
+            placeholder="사업자등록번호"
+            reactIcon={<FiBookmark />}
+            onChange={onChange}
+          />
+          <Input
+            name="ceo"
+            value={ceo}
+            label="사업자 대표"
+            placeholder="사업자 대표"
+            reactIcon={<FiUser />}
+            onChange={onChange}
+          />
           <div className="footer">
             <Button color="red" size="all">
               거래처 저장

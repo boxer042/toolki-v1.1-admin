@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import { fetchAccounts } from '../../modules/accountsSlice';
+import { AddAccount, fetchAccounts } from '../../modules/accountsSlice';
 import Account from '../../components/account/Account';
 import AccountModal from '../../components/account/AccountModal';
 import PageHeader from '../../components/pageHeader/PageHeader';
@@ -15,10 +15,42 @@ export default function Accounts(props: IAccountsProps) {
   const { account } = useSelector((state: RootState) => state.base);
   const dispatch = useDispatch();
 
+  const [inputs, setInputs] = useState({
+    name: '',
+    address: '',
+    office: '',
+    fax: '',
+    manager: '',
+    position: '',
+    mobile: '',
+    businessNumber: '',
+    ceo: '',
+  });
+
   useEffect(() => {
     dispatch(fetchAccounts());
   }, [dispatch]);
 
+  // const form = new FormData();
+  //   // if (categoryName === '') {
+  //   //   alert('카테고리 네임공백');
+  //   //   return;
+  //   // }
+  //   form.append('name', categoryName);
+  //   form.append('parentId', parentCategoryId);
+  //   form.append('categoryImage', categoryImage);
+  //   dispatch(addCategory(form));
+  //   setShow(false);
+
+  // const onAddAccount = useCallback(
+  //   async (inputs) => {
+  //     dispatch(AddAccount(inputs));
+  //   },
+  //   [inputs],
+  // );
+  const onAddAccount = () => {
+    console.log(inputs);
+  };
   const handleAddAccountModal = () => {
     dispatch(openAccountModal());
   };
@@ -46,7 +78,13 @@ export default function Accounts(props: IAccountsProps) {
         // },
       ]}
     >
-      <AccountModal visible={account.visible} onClose={onClose} />
+      <AccountModal
+        visible={account.visible}
+        onClose={onClose}
+        inputs={inputs}
+        setInputs={setInputs}
+        onAddAccount={onAddAccount}
+      />
       <Account accounts={accounts} error={error} />
     </PageHeader>
   );

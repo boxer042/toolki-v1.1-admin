@@ -3,11 +3,28 @@ import styled from 'styled-components';
 import { palette } from '../../lib/styles/palette';
 
 const InputBlock = styled.div`
-  margin-top: 1.75rem;
+  margin-top: 1rem;
+  width: 100%;
+
+  /* margin: 0.75rem; */
 `;
 
 const InputGroup = styled.div`
   position: relative;
+`;
+
+const InputWrapper = styled.input`
+  padding: 0.75rem 2.35rem 0.75rem 0.75rem;
+  border: 1px solid ${palette.baseLine};
+  border-radius: 4px;
+  font-size: 1.125rem;
+  width: 100%;
+  &:focus {
+    border: 1px solid #12b886;
+  }
+  &::placeholder {
+    color: ${palette.subFontColor};
+  }
 `;
 
 const Label = styled.div`
@@ -27,25 +44,10 @@ const Error = styled.div`
   font-weight: 600;
 `;
 
-const Inputed = styled.input`
-  padding: 0.75rem 2.35rem 0.75rem 0.75rem;
-  border: 1px solid ${palette.baseLine};
-  border-radius: 4px;
-  font-size: 1.125rem;
-  width: 100%;
-  &:focus {
-    border: 1px solid #12b886;
-  }
-  &::placeholder {
-    color: ${palette.subFontColor};
-  }
-`;
-
 const Icon = styled.div`
   position: absolute;
   top: 1rem;
   right: 0.75rem;
-  font-size: 2.5rem;
   font-size: 1.125rem;
   color: ${palette.subFontColor};
 `;
@@ -57,6 +59,9 @@ export interface IInputProps {
   error?: string;
   required?: boolean;
   type?: string;
+  value?: string | number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
 }
 
 export default function Input({
@@ -66,6 +71,9 @@ export default function Input({
   error,
   required,
   type,
+  value,
+  name,
+  onChange,
 }: IInputProps) {
   return (
     <InputBlock>
@@ -74,7 +82,13 @@ export default function Input({
         {required ? <Required>*</Required> : undefined}
       </Label>
       <InputGroup>
-        <Inputed placeholder={placeholder} type={type} />
+        <InputWrapper
+          name={name}
+          placeholder={placeholder}
+          type={type}
+          value={value}
+          onChange={onChange}
+        />
         <Icon>{reactIcon}</Icon>
       </InputGroup>
       {error ? <Error>{error}</Error> : undefined}
