@@ -21,8 +21,19 @@ const initialState: IBaseState = {
 export const baseSlice = createSlice({
   name,
   initialState,
-  reducers: {},
+  reducers: {
+    openAccountModal: (state) => {
+      state.account.visible = true;
+      state.layer = true;
+    },
+    closeAccountModal: (state) => {
+      state.account.visible = false;
+      state.layer = false;
+    },
+  },
   extraReducers: () => {},
 });
 
 export default baseSlice.reducer;
+
+export const { openAccountModal, closeAccountModal } = baseSlice.actions;

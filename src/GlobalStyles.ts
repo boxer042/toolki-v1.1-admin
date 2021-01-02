@@ -16,7 +16,9 @@ body {
 
 * {
   box-sizing: inherit;
+  text-decoration: none;
 }
+*:focus { outline:none; }
 code {
   font-family: 'Fira Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
 import { GrFormClose } from 'react-icons/gr';
 import { zIndexes } from './../../lib/styles/zIndexes';
 import Button from '../common/Button';
-import { IAccount } from '../../modules/accountsSlice';
+import Input from '../common/Input';
+import Select from '../common/Select';
+import { FaBuilding, FaFax } from 'react-icons/fa';
+import { MdLocationOn } from 'react-icons/md';
+import transitions from '../../lib/styles/transitions';
 
 const AccountModalBlock = styled.div<{ visible: boolean }>`
   position: fixed;
@@ -18,7 +22,6 @@ const AccountModalBlock = styled.div<{ visible: boolean }>`
   .wrapper {
     background-color: white;
     width: 606px;
-    height: 420px;
     padding: 1.5rem;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
     @media screen and (max-width: 480px) {
@@ -26,11 +29,24 @@ const AccountModalBlock = styled.div<{ visible: boolean }>`
       width: auto;
       height: 100%;
     }
+    ${(props) =>
+      props.visible
+        ? css`
+            animation: ${transitions.popInFromBottom} 0.4s forwards ease-in-out;
+          `
+        : css`
+            animation: ${transitions.popOutToBottom} 0.2s forwards ease-in-out;
+          `}
+
     .status-bar {
       display: flex;
-      justify-content: flex-end;
-      font-size: 2.5rem;
+      justify-content: space-between;
+      font-size: 2rem;
+      align-items: center;
       margin-bottom: 1rem;
+      svg {
+        cursor: pointer;
+      }
     }
     .footer {
       margin-top: 1rem;
@@ -40,76 +56,96 @@ const AccountModalBlock = styled.div<{ visible: boolean }>`
   }
 `;
 
-const Contents = styled.div`
-  display: flex;
-  flex-direction: column;
-  .contact_manager_group {
-    display: flex;
-    .contact {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .manager {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-  }
-`;
+const Contents = styled.form``;
 
 export interface IAccountModalProps {
   visible: boolean;
+  onClose: () => void;
 }
 
-export default function AccountModal({ visible }: IAccountModalProps) {
+export default function AccountModal({ visible, onClose }: IAccountModalProps) {
   const [name, setName] = useState('');
   const [office, setOffice] = useState('');
   const [fax, setFax] = useState('');
+  const [closed, setClosed] = useState(true);
 
-  console.log(name);
+  useEffect(() => {
+    let timeoutId: number | null = null;
+    if (visible) {
+      setClosed(false);
+    } else {
+      timeoutId = window.setTimeout(() => {
+        setClosed(true);
+      }, 200);
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [visible]);
+
+  if (!visible && closed) return null;
   return (
     <AccountModalBlock visible={visible}>
       <div className="wrapper">
         <div className="status-bar">
-          <GrFormClose />
+          <div />
+          <div>거래처 등록</div>
+          <GrFormClose onClick={onClose} />
         </div>
-        <div className="header">
-          <h2>거래처 등록</h2>
-        </div>
-        <Contents>
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+        <Contents
+          onSubmit={() => {
+            alert('임시');
+          }}
+        >
+          <Input
+            label="거래처명"
             placeholder="거래처명"
+            error=""
+            reactIcon={<FaBuilding />}
+            required
           />
-          <div className="contact_manager_group">
-            <div className="contact">
-              <h3>연락처</h3>
-              <input
-                value={office}
-                onChange={(e) => setOffice(e.target.value)}
-                placeholder="사무실"
-              />
-              <input
-                value={fax}
-                onChange={(e) => setFax(e.target.value)}
-                placeholder="팩스"
-              />
-            </div>
-            <div className="manager">
-              <h3>담당자</h3>
-            </div>
-          </div>
+          <Input
+            label="거래처 주소"
+            placeholder="주소"
+            reactIcon={<MdLocationOn />}
+          />
+          <Input
+            label="사무실 전화번호"
+            placeholder="사무실 전화번호"
+            error=""
+            reactIcon={<FaBuilding />}
+            required
+          />
+          <Input
+            label="팩스 전화번호"
+            placeholder="사무실 전화번호"
+            reactIcon={<FaFax />}
+          />
+          <Input
+            label="담당자 이름"
+            placeholder="담당자 이름"
+            reactIcon={<FaFax />}
+          />
+          <Input
+            label="담당자 직급"
+            placeholder="담당자 직급"
+            reactIcon={<FaFax />}
+          />
+          <Select />
+          <Input
+            label="담당자 연락처"
+            placeholder="담당자 연락처"
+            reactIcon={<FaFax />}
+          />
 
-          <div>
-            <h3>사업자정보</h3>
+          <div className="footer">
+            <Button color="red" size="all">
+              거래처 저장
+            </Button>
           </div>
         </Contents>
-        <div className="footer">
-          <Button color="gray">닫기</Button>
-          <Button color="red">거래처 저장</Button>
-        </div>
       </div>
     </AccountModalBlock>
   );

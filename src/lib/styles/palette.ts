@@ -7,8 +7,11 @@ export const palette = {
   baseBackgroundHover: '#e9ecef',
   baseFontHoverAndActive: '#fa5252', //RED6
   baseLogoColor: '#fa5252',
-
+  error: '#c92a2a',
   tableBackgroundHover: '#edf2ff', // INDIGO
+  INDIGO6: '#4c6ef5',
+
+  TEAL06: '#12b886', // input focus
 };
 
 export const buttonColorMap: {

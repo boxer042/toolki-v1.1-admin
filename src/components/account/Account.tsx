@@ -21,15 +21,20 @@ const AccountWrapper = styled.div`
   border-radius: 0.25rem;
   font-size: 0.95rem;
   padding: 0.75rem;
+
   .active {
     color: #5c7cfa;
   }
   table {
     width: 100%;
+    border-collapse: collapse;
   }
 
   th {
     padding: 0.5rem;
+    text-align: left;
+    font-weight: normal;
+    font-size: 0.75rem;
   }
   td {
     border-top: 1px solid ${palette.baseLine};
@@ -150,7 +155,6 @@ export default function Account({ accounts, error }: IAccountProps) {
                   <td>{replacePhone(account.contact.office)}</td>
                   <td>{replacePhone(account.contact.fax)}</td>
                 </TbodyContainer>
-
                 {isSelected.includes(account._id) ? (
                   <AccountDetail
                     accountName={account.name}

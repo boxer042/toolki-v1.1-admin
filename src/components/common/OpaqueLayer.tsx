@@ -18,5 +18,6 @@ export interface IOpaqueLayerProps {
 }
 
 export default function OpaqueLayer({ visible }: IOpaqueLayerProps) {
+  if (!visible) return null;
   return <OpaqueLayerBlock visible={visible} />;
 }

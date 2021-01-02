@@ -95,8 +95,12 @@ export default function AccountDetiail({
           </AccountDetailEnd>
         </AccountDetailSection>
         <AccountDetailFooter>
-          <Button color="gray">삭제</Button>
-          <Button color="red">수정</Button>
+          <Button color="gray" size="small">
+            삭제
+          </Button>
+          <Button color="red" size="small">
+            수정
+          </Button>
         </AccountDetailFooter>
       </td>
     </AccountDetailContainer>
