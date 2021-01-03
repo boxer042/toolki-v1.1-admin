@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
-import { palette } from './../../lib/styles/palette';
+import { palette } from '../../../lib/styles/palette1';
 import Button from '../common/Button';
-import { formatBusiness } from '../../lib/utils';
-import { replacePhone } from './../../lib/utils';
+import { formatBusiness } from '../../../lib/utils';
+import { replacePhone } from '../../../lib/utils';
 
 export interface IAccountDetiailProps {
   active: boolean;

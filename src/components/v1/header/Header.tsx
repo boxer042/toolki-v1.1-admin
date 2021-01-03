@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { MdMenu } from 'react-icons/md';
-import { zIndexes } from '../../lib/styles/zIndexes';
-import { palette } from '../../lib/styles/palette';
+import { zIndexes } from '../../../lib/styles/zIndexes';
+import { palette } from '../../../lib/styles/palette1';
 import { SiWolframlanguage } from 'react-icons/si';
 import { NavLink } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';

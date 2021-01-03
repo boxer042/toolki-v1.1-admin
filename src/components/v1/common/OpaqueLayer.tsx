@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { zIndexes } from './../../lib/styles/zIndexes';
+import { zIndexes } from '../../../lib/styles/zIndexes';
 
 const OpaqueLayerBlock = styled.div<{ visible: boolean }>`
   position: fixed;

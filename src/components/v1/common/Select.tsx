@@ -1,7 +1,7 @@
 import React from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import styled from 'styled-components';
-import { palette } from '../../lib/styles/palette';
+import { palette } from '../../../lib/styles/palette1';
 
 const SelectBlock = styled.div`
   margin-top: 1rem;

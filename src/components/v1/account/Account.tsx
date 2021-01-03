@@ -5,14 +5,14 @@ import {
   FaRegFrown,
 } from 'react-icons/fa';
 import styled, { css } from 'styled-components';
-import { IAccount } from '../../modules/accountsSlice';
+import { IAccount } from '../../../modules/accountsSlice';
 import AccountDetail from './AccountDetail';
-import { palette } from './../../lib/styles/palette';
-import { replacePhone } from './../../lib/utils';
+import { palette } from '../../../lib/styles/palette1';
+import { replacePhone } from '../../../lib/utils';
 
 export interface IAccountProps {
   accounts: IAccount[];
-  error: string | null | undefined;
+  error?: string;
 }
 
 const AccountWrapper = styled.div`
@@ -86,8 +86,6 @@ const NoDataContainer = styled.tr`
 
 export default function Account({ accounts, error }: IAccountProps) {
   const [isSelected, setIsSelected] = useState<string[]>([]);
-
-  console.log(`Selectd Table ID : ${isSelected}`);
 
   const handleTableAllSelected = (accounts: IAccount[]) => {
     const selectedIdsArray = accounts.map((account) => account._id);

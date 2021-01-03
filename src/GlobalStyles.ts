@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { palette } from './lib/styles/palette';
+import { font } from './foundations/font';
 
 const GlobalStyles = createGlobalStyle`
 body {
@@ -9,8 +9,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-  background-color: #f1f3f5; //gray 1
-  color: ${palette.baseFontColor};
+  color: ${font.baseFontColor};
+  font-size: 1rem;
 
 }
 
@@ -30,7 +30,7 @@ html, body, #root {
   height: 100%;
 }
 h1, h2, h3 {
-  color: ${palette.baseFontColor};
+  color: ${font.baseFontColor};
 }
 `;
 

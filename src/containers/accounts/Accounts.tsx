@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import { AddAccount, fetchAccounts } from '../../modules/accountsSlice';
-import Account from '../../components/account/Account';
-import AccountModal from '../../components/account/AccountModal';
-import PageHeader from '../../components/pageHeader/PageHeader';
+import { createAccount, fetchAccounts } from '../../modules/accountsSlice';
+import Account from '../../components/v1/account/Account';
+import AccountModal, {
+  Tinputs,
+} from '../../components/v1/account/AccountModal';
+import PageHeader from '../../components/v1/pageHeader/PageHeader';
 import { openAccountModal, closeAccountModal } from '../../modules/baseSlice';
 export interface IAccountsProps {}
 
@@ -15,45 +17,49 @@ export default function Accounts(props: IAccountsProps) {
   const { account } = useSelector((state: RootState) => state.base);
   const dispatch = useDispatch();
 
-  const [inputs, setInputs] = useState({
-    name: '',
-    address: '',
-    office: '',
-    fax: '',
-    manager: '',
-    position: '',
-    mobile: '',
-    businessNumber: '',
-    ceo: '',
-  });
-
   useEffect(() => {
     dispatch(fetchAccounts());
   }, [dispatch]);
 
-  // const form = new FormData();
-  //   // if (categoryName === '') {
-  //   //   alert('카테고리 네임공백');
-  //   //   return;
-  //   // }
-  //   form.append('name', categoryName);
-  //   form.append('parentId', parentCategoryId);
-  //   form.append('categoryImage', categoryImage);
-  //   dispatch(addCategory(form));
-  //   setShow(false);
+  const oncreateAccount = useCallback(
+    async (inputs: Tinputs) => {
+      const {
+        name,
+        address,
+        office,
+        fax,
+        manager,
+        position,
+        mobile,
+        businessNumber,
+        ceo,
+      } = inputs;
+      const account = {
+        name: name,
+        contact: {
+          office: office,
+          fax: fax,
+        },
+        manager: {
+          name: manager,
+          position: position,
+          mobile: mobile,
+        },
+        detail: {
+          address: address,
+          businessNumber: businessNumber,
+          ceo: ceo,
+        },
+      };
+      dispatch(createAccount(account));
+    },
+    [dispatch],
+  );
 
-  // const onAddAccount = useCallback(
-  //   async (inputs) => {
-  //     dispatch(AddAccount(inputs));
-  //   },
-  //   [inputs],
-  // );
-  const onAddAccount = () => {
-    console.log(inputs);
-  };
-  const handleAddAccountModal = () => {
+  const openAddModal = useCallback(() => {
     dispatch(openAccountModal());
-  };
+  }, [dispatch]);
+
   const onClose = useCallback(() => {
     dispatch(closeAccountModal());
     // TODO: 폼안에 초기화 시키기
@@ -67,7 +73,7 @@ export default function Accounts(props: IAccountsProps) {
         {
           label: '추가',
           color: 'red',
-          onClick: handleAddAccountModal,
+          onClick: openAddModal,
         },
         // {
         //   label: '삭제',
@@ -81,9 +87,7 @@ export default function Accounts(props: IAccountsProps) {
       <AccountModal
         visible={account.visible}
         onClose={onClose}
-        inputs={inputs}
-        setInputs={setInputs}
-        onAddAccount={onAddAccount}
+        oncreateAccount={oncreateAccount}
       />
       <Account accounts={accounts} error={error} />
     </PageHeader>

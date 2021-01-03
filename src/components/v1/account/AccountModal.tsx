@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 import { GrFormClose } from 'react-icons/gr';
 import {
@@ -10,11 +10,11 @@ import {
   FiUser,
   FiUsers,
 } from 'react-icons/fi';
-import { zIndexes } from './../../lib/styles/zIndexes';
+import { zIndexes } from '../../../lib/styles/zIndexes';
 import Button from '../common/Button';
 import Input from '../common/Input';
 import Select from '../common/Select';
-import transitions from '../../lib/styles/transitions';
+import transitions from '../../../lib/styles/transitions';
 
 const AccountModalBlock = styled.div<{ visible: boolean }>`
   position: fixed;
@@ -65,44 +65,42 @@ const AccountModalBlock = styled.div<{ visible: boolean }>`
 
 const Contents = styled.form``;
 
+export type Tinputs = {
+  name: string;
+  address: string;
+  office: string;
+  fax: string;
+  manager: string;
+  position: string;
+  mobile: string;
+  businessNumber: string;
+  ceo: string;
+};
+
 export interface IAccountModalProps {
   visible: boolean;
   onClose: () => void;
-  onAddAccount: () => void;
-  inputs: {
-    name: string;
-    address: string;
-    office: string;
-    fax: string;
-    manager: string;
-    position: string;
-    mobile: string;
-    businessNumber: string;
-    ceo: string;
-  };
-  setInputs: React.Dispatch<
-    React.SetStateAction<{
-      name: string;
-      address: string;
-      office: string;
-      fax: string;
-      manager: string;
-      position: string;
-      mobile: string;
-      businessNumber: string;
-      ceo: string;
-    }>
-  >;
+  oncreateAccount: (inputs: Tinputs) => void;
 }
 
 export default function AccountModal({
   visible,
   onClose,
-  inputs,
-  setInputs,
-  onAddAccount,
+  oncreateAccount,
 }: IAccountModalProps) {
   const [closed, setClosed] = useState(true);
+  const [inputs, setInputs] = useState({
+    name: '',
+    address: '',
+    office: '',
+    fax: '',
+    manager: '',
+    position: '',
+    mobile: '',
+    businessNumber: '',
+    ceo: '',
+  });
+
   const {
     name,
     address,
@@ -131,24 +129,29 @@ export default function AccountModal({
     };
   }, [visible]);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target;
-    setInputs({
-      ...inputs, // 기존의 input 객체 복사
-      [name]: value, // name키를 가진값을 value로 설정
-    });
-  };
+  const onChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value, name } = e.target;
+      setInputs({
+        ...inputs, // 기존의 input 객체 복사
+        [name]: value, // name키를 가진값을 value로 설정
+      });
+    },
+    [inputs],
+  );
 
-  const onSelected = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value, name } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
+  const onSelected = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const { value, name } = e.target;
+      setInputs({
+        ...inputs,
+        [name]: value,
+      });
+    },
+    [inputs],
+  );
 
   // TODO: onReset 만들어야함
-
   if (!visible && closed) return null;
   return (
     <AccountModalBlock visible={visible}>
@@ -158,7 +161,13 @@ export default function AccountModal({
           <div>거래처 등록</div>
           <GrFormClose onClick={onClose} />
         </div>
-        <Contents onSubmit={onAddAccount}>
+        <Contents
+          onSubmit={(e) => {
+            e.preventDefault();
+            oncreateAccount(inputs);
+            onClose();
+          }}
+        >
           <Input
             name="name"
             label="거래처명"
@@ -250,7 +259,7 @@ export default function AccountModal({
             onChange={onChange}
           />
           <div className="footer">
-            <Button color="red" size="all">
+            <Button color="red" size="all" type="submit">
               거래처 저장
             </Button>
           </div>

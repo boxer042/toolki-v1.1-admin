@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../modules';
-import OpaqueLayer from '../../components/common/OpaqueLayer';
+import OpaqueLayer from '../../components/v1/common/OpaqueLayer';
 
 export interface ICoreProps {}
 

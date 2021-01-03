@@ -1,15 +1,17 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
-import { buttonColorMap } from '../../lib/styles/palette';
+import { buttonColorMap } from '../../../lib/styles/palette1';
 
 type ColorType = 'red' | 'gray';
 type ButtonSize = 'medium' | 'large' | 'all' | 'small';
+type ButtonType = 'button' | 'submit' | 'reset';
 
 export interface IButtonProps {
   color?: ColorType;
   children: string;
   size?: ButtonSize;
   onClick?: () => void;
+  type?: ButtonType;
 }
 
 const ButtonBlock = styled.button<{ color: ColorType; size: ButtonSize }>`
@@ -64,10 +66,11 @@ export default function Button({
   children,
   color = 'red',
   size = 'medium',
+  type,
   onClick,
 }: IButtonProps) {
   return (
-    <ButtonBlock color={color} size={size} onClick={onClick}>
+    <ButtonBlock color={color} size={size} onClick={onClick} type={type}>
       {children}
     </ButtonBlock>
   );

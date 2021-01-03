@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { palette } from './../../lib/styles/palette';
-import { zIndexes } from './../../lib/styles/zIndexes';
+import { palette } from '../../../lib/styles/palette1';
+import { zIndexes } from '../../../lib/styles/zIndexes';
 import Button from '../common/Button';
 import { FaAngleLeft } from 'react-icons/fa';
 

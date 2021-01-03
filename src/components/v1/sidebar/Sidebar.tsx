@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { zIndexes } from './../../lib/styles/zIndexes';
-import { palette } from './../../lib/styles/palette';
-import { layout } from './../../lib/styles/layout';
+import { zIndexes } from '../../../lib/styles/zIndexes';
+import { palette } from '../../../lib/styles/palette1';
+import { layout } from '../../../lib/styles/layout';
 import { FaBuilding, FaDatabase, FaStore, FaUser } from 'react-icons/fa';
 import { MdHome, MdSettings } from 'react-icons/md';
 

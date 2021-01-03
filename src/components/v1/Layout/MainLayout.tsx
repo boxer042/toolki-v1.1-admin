@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Header from '../header/Header';
 import Sidebar from '../sidebar/Sidebar';
 import styled from 'styled-components';
-import { font } from './../../lib/styles/font';
-import { layout } from './../../lib/styles/layout';
+import { font } from '../../../lib/styles/font';
+import { layout } from '../../../lib/styles/layout';
 
 export interface IMainLayoutProps {
   children: React.ReactNode;
