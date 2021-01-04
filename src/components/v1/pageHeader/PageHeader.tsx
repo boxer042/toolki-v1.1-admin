@@ -16,12 +16,12 @@ export interface IPageHeaderProps {
 }
 
 const PageHeaderWrapper = styled.div`
-  position: sticky;
+  /* position: sticky; */
   display: flex;
   align-items: center;
   background-color: ${palette.baseBackground};
   height: 4rem;
-  top: 3rem;
+  /* top: 3rem; */
   padding: 0 1rem;
   z-index: ${zIndexes.header};
   transition: 0.5s;

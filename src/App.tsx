@@ -7,6 +7,7 @@ import GlobalStyles from './GlobalStyles';
 import Core from './containers/base/Core';
 import Header from './templates/header/Header';
 import Navigation from './templates/navigation/Navigation';
+import Content from './templates/content/Content';
 
 function App() {
   return (
@@ -15,12 +16,12 @@ function App() {
       <Core />
       <Header />
       <Navigation />
-      <div style={{ paddingBottom: '6rem' }}>
+      <Content>
         <Switch>
           <Route exact path="/" component={DashboardPage} />
           <Route path="/accounts" component={AccountsPage} />
         </Switch>
-      </div>
+      </Content>
     </BrowserRouter>
   );
 }

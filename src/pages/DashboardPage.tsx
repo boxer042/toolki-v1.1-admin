@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { FiMenu, FiSearch } from 'react-icons/fi';
 import Button from '../components/Button';
-import { FaUserCircle } from 'react-icons/fa';
 
 export interface IDashboardPageProps {}
 
 export default function DashboardPage(props: IDashboardPageProps) {
   return (
     <>
-      <br />
       <br />
       <Button shape="round">
         <FiSearch />

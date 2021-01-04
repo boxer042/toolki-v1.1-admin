@@ -17,6 +17,10 @@ const UserToggleButtonBlock = styled.button`
   width: 77px;
   background-color: #fff;
   border: 1px solid ${base.gray_Line};
+  &:hover {
+    box-shadow: 1px 2px 5px #ddd;
+    transition: ease 0.2s;
+  }
   .menu {
     display: flex;
     font-size: 1rem;

@@ -4,7 +4,8 @@ const name = 'base';
 
 export interface IBaseState {
   layer: boolean;
-  sidebar: boolean;
+  header: boolean;
+  footer: boolean;
   account: {
     visible: boolean;
   };
@@ -12,7 +13,8 @@ export interface IBaseState {
 
 const initialState: IBaseState = {
   layer: false,
-  sidebar: false,
+  header: true,
+  footer: false,
   account: {
     visible: false,
   },
@@ -30,10 +32,21 @@ export const baseSlice = createSlice({
       state.account.visible = false;
       state.layer = false;
     },
+    isHeader: (state, action) => {
+      state.header = action.payload;
+    },
+    isFooter: (state, action) => {
+      state.footer = action.payload;
+    },
   },
   extraReducers: () => {},
 });
 
 export default baseSlice.reducer;
 
-export const { openAccountModal, closeAccountModal } = baseSlice.actions;
+export const {
+  openAccountModal,
+  closeAccountModal,
+  isHeader,
+  isFooter,
+} = baseSlice.actions;

@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { base } from '../../foundations/base';
 import Logo from '../../components/Logo';
-import Button from '../../components/Button';
 import UserToggleButton from '../user/UserToggleButton';
-import { FiSearch } from 'react-icons/fi';
+import GlobalSearch from '../../components/search/GlobalSearch';
+import { isHeader } from '../../modules/baseSlice';
+import { RootState } from '../../modules';
 
 const HeaderBlock = styled.div`
-  position: sticky;
+  position: fixed;
+  width: 100%;
   top: 0;
   left: 0;
   display: flex;
@@ -18,24 +21,41 @@ const HeaderBlock = styled.div`
   padding: 1rem;
   border-bottom: 1px solid ${base.gray_Line};
   @media (min-width: 744px) {
-    border: none;
   }
 `;
 
 export interface IHeaderProps {}
 
 export default function Header(props: IHeaderProps) {
-  return (
-    <HeaderBlock>
-      <Logo link="/" />
-      <div>
-        Search
-        <Button shape="round">
-          <FiSearch />
-        </Button>
-      </div>
+  const { header } = useSelector((state: RootState) => state.base);
+  const dispatch = useDispatch();
 
-      <UserToggleButton />
-    </HeaderBlock>
+  useEffect(() => {
+    const pathname = window.location.pathname;
+    const media: MediaQueryList = window.matchMedia('(min-width: 744px)');
+    const listener = () => {
+      dispatch(isHeader(media.matches));
+    };
+    if (pathname !== '/') {
+      if (media.matches !== header) {
+        dispatch(isHeader(media.matches));
+      }
+      media.addListener(listener);
+    }
+    return () => {
+      media.removeListener(listener);
+    };
+  }, [header, dispatch]);
+
+  return (
+    <>
+      {header ? (
+        <HeaderBlock>
+          <Logo link="/" />
+          <GlobalSearch />
+          <UserToggleButton />
+        </HeaderBlock>
+      ) : undefined}
+    </>
   );
 }
