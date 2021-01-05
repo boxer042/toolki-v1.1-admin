@@ -40,10 +40,12 @@ export const baseSlice = createSlice({
     isFooter: (state, action) => {
       state.footer = action.payload;
     },
-    openLayer: (state) => {
+    openModal: (state) => {
+      state.modal = true;
       state.layer = true;
     },
-    closeLayer: (state) => {
+    closeModal: (state) => {
+      state.modal = false;
       state.layer = false;
     },
   },
@@ -57,6 +59,6 @@ export const {
   closeAccountModal,
   isHeader,
   isFooter,
-  openLayer,
-  closeLayer,
+  openModal,
+  closeModal,
 } = baseSlice.actions;

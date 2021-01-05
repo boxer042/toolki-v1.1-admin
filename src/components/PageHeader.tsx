@@ -11,7 +11,7 @@ import { TColorType } from '../components/Button';
 const PageHeaderBlock = styled.div`
   width: 100%;
   height: 65px;
-  /* border-bottom: 1px solid ${base.gray_Line}; */
+  border-bottom: 1px solid ${base.gray_Line};
   padding: 0 1rem;
   display: flex;
   background-color: white;
@@ -20,7 +20,7 @@ const PageHeaderBlock = styled.div`
   position: sticky;
   left: 0;
   top: calc(${layer.header} + ${layer.nav});
-  box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.08);
+  /* box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.09); */
   @media (max-width: 743px) {
     position: fixed;
     top: 0;

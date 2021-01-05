@@ -5,8 +5,7 @@ import { replacePhone } from './../../lib/utils';
 import { palette } from './../../foundations/palette';
 import { base } from './../../foundations/base';
 import Modal from '../../components/Modal';
-import { useDispatch } from 'react-redux';
-import { closeLayer, openLayer } from '../../modules/baseSlice';
+import useModalWithData from './../../components/hooks/useModalWithData';
 
 const AccountListBlock = styled.div`
   padding: 1rem;
@@ -35,8 +34,12 @@ export interface IAccountListProps {
 }
 
 export default function AccountList({ accounts }: IAccountListProps) {
-  const [openUpdateModal, setOpenUpdateModal] = useState(false);
-  const dispatch = useDispatch();
+  const [visible, selected, setSelected, onOpen, onClose] = useModalWithData(
+    false,
+    null,
+  );
+
+  console.log(selected);
   return (
     <AccountListBlock>
       <table>
@@ -53,8 +56,8 @@ export default function AccountList({ accounts }: IAccountListProps) {
             <tr
               key={account._id}
               onClick={() => {
-                dispatch(openLayer());
-                setOpenUpdateModal(true);
+                setSelected(account);
+                onOpen();
               }}
             >
               <td>{account.name}</td>
@@ -64,17 +67,9 @@ export default function AccountList({ accounts }: IAccountListProps) {
             </tr>
           ))}
         </tbody>
-        <tfoot>1페이지</tfoot>
       </table>
-      <Modal
-        visible={openUpdateModal}
-        title={'거래처 업데이트'}
-        onClose={() => {
-          dispatch(closeLayer());
-          setOpenUpdateModal(false);
-        }}
-      >
-        Update Account
+      <Modal visible={visible} onClose={onClose}>
+        <div>{selected && selected.name}</div>
       </Modal>
     </AccountListBlock>
   );

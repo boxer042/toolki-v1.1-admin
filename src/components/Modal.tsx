@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { useSelector } from 'react-redux';
-import { RootState } from '../modules';
 import { zindex } from './../foundations/zindex';
 import { RiCloseFill } from 'react-icons/ri';
 import { base } from './../foundations/base';
@@ -60,7 +58,12 @@ export interface IModalProps {
   visible: boolean;
 }
 
-export default function Modal({ onClose, children, title, visible }: IModalProps) {
+export default function Modal({
+  onClose,
+  children,
+  title,
+  visible,
+}: IModalProps) {
   const [closed, setClosed] = useState(true);
 
   useEffect(() => {

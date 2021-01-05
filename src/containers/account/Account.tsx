@@ -3,19 +3,21 @@ import styled from 'styled-components';
 import PageHeader from '../../components/PageHeader';
 import Modal from '../../components/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeLayer, openLayer } from '../../modules/baseSlice';
 import AddAcount from '../../templates/account/AddAcount';
 import AccountList from '../../templates/account/AccountList';
 import { RootState } from '../../modules';
+import useModal from './../../components/hooks/useModal';
 
 const AccountBlock = styled.div``;
 
 export interface IAccountProps {}
 
 export default function Account(props: IAccountProps) {
-  const { accounts, loading, error } = useSelector((state: RootState) => state.accounts);
-  const [openCreateModal, setOpenCreateModal] = useState(false);
-  const dispatch = useDispatch();
+  const { accounts, loading, error } = useSelector(
+    (state: RootState) => state.accounts,
+  );
+
+  const [createModal, openCreateModal, closeCreateModal] = useModal(false);
 
   return (
     <AccountBlock>
@@ -25,21 +27,17 @@ export default function Account(props: IAccountProps) {
           {
             label: '추가',
             color: 'primary',
-            onClick: () => {
-              dispatch(openLayer());
-              setOpenCreateModal(true);
-            },
+            onClick: openCreateModal,
           },
         ]}
       />
       <AccountList accounts={accounts} />
+
+      {/* Create Account Modal */}
       <Modal
-        visible={openCreateModal}
+        visible={createModal}
         title={'거래처 추가'}
-        onClose={() => {
-          dispatch(closeLayer());
-          setOpenCreateModal(false);
-        }}
+        onClose={closeCreateModal}
       >
         <AddAcount />
       </Modal>
