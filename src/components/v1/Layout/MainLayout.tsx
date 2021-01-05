@@ -14,13 +14,10 @@ const Wrapper = styled.div<{ side: boolean }>`
   margin: 3rem 0 0 0;
   font-size: ${font.normal};
   transition: 0.5s;
-  padding-left: ${(props) =>
-    props.side ? `calc(${layout.baseSidebarWidth})` : ''};
+  padding-left: ${(props) => (props.side ? `calc(${layout.baseSidebarWidth})` : '')};
   @media screen and (min-width: 768px) {
     padding-left: ${(props) =>
-      props.side
-        ? `calc(${layout.baseSidebarWidth})`
-        : `calc(${layout.baseSidebarWidth} + 168px)`};
+      props.side ? `calc(${layout.baseSidebarWidth})` : `calc(${layout.baseSidebarWidth} + 168px)`};
   }
 `;
 

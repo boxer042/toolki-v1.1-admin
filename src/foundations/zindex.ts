@@ -3,4 +3,5 @@ export const zindex = {
   navigation: '80',
   modal: '90',
   dialog: '100',
+  OpaqueLayer: '85',
 };

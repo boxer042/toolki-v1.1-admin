@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import breakPoint from './../../foundations/breakPoint';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../modules';
+import { layer } from './../../foundations/layer';
 
 const ContentBlock = styled.div<{ header: boolean }>`
   width: 100%;
-  padding-top: ${(props) => (props.header ? '5rem' : undefined)};
-  padding-bottom: 5rem;
+  padding-top: ${(props) => (props.header ? `${layer.header}` : `${layer.nav}`)};
+  padding-bottom: ${layer.nav};
   ${breakPoint} {
-    padding-top: 10rem;
+    padding-top: calc(${layer.header} + ${layer.nav});
     height: 100%;
   }
 `;

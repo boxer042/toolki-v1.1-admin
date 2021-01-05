@@ -5,17 +5,22 @@ import useMediaQuery from './../../components/hooks/useMediaQuery';
 import { useSelector, useDispatch } from 'react-redux';
 import { isFooter } from '../../modules/baseSlice';
 import { RootState } from '../../modules';
-import { FiHome, FiSettings, FiShoppingBag, FiUsers } from 'react-icons/fi';
+import { layer } from './../../foundations/layer';
+import MobileNav from './MobileNav';
+import DesktopNav from './DesktopNav';
 
 const NavigationBlock = styled.div`
   position: fixed;
   left: 0;
   top: 5rem;
-  height: 5rem;
+  height: ${layer.nav};
   width: 100%;
   border-bottom: 1px solid ${base.gray_Line};
   background-color: white;
-  font-size: 1.5rem;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const FooterBlock = styled.div`
@@ -23,10 +28,15 @@ const FooterBlock = styled.div`
   width: 100%;
   left: 0;
   bottom: 0;
-  height: 5rem;
+  height: ${layer.nav};
   border-top: 1px solid ${base.gray_Line};
   background-color: white;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
+
 export interface INavigationProps {}
 
 export default function Navigation(props: INavigationProps) {
@@ -41,14 +51,12 @@ export default function Navigation(props: INavigationProps) {
   return (
     <>
       {footer ? (
-        <FooterBlock>모바일 푸터</FooterBlock>
+        <FooterBlock>
+          <MobileNav />
+        </FooterBlock>
       ) : (
         <NavigationBlock>
-          <FiHome /> 홈
-          <FiShoppingBag />
-          판매내역
-          <FiUsers /> 고객
-          <FiSettings /> 설정
+          <DesktopNav />
         </NavigationBlock>
       )}
     </>

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AccountsPage from './pages/AccountsPage';
 import DashboardPage from './pages/DashboardPage';
-import MainLayout from './components/v1/Layout/MainLayout';
+import PurchasePage from './pages/PurchasePage';
 import GlobalStyles from './GlobalStyles';
 import Core from './containers/base/Core';
 import Header from './templates/header/Header';
@@ -19,6 +19,7 @@ function App() {
       <Content>
         <Switch>
           <Route exact path="/" component={DashboardPage} />
+          <Route path="/purchase" component={PurchasePage} />
           <Route path="/accounts" component={AccountsPage} />
         </Switch>
       </Content>

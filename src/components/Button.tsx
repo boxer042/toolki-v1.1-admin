@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { base } from './../foundations/base';
 
-const ButtonBlock = styled.button<{ shape: TShapeType; size: TSizeType }>`
+const ButtonBlock = styled.button<{ shape: TShapeType; size: TSizeType; color: TColorType }>`
   // 기본 버튼 속성
   display: inline-flex;
   align-items: center;
@@ -90,7 +90,7 @@ const ButtonBlock = styled.button<{ shape: TShapeType; size: TSizeType }>`
   }
 `;
 
-type TColorType = 'primary' | 'secondary' | 'red';
+export type TColorType = 'primary' | 'secondary' | 'red';
 type TShapeType = 'default' | 'round' | 'ellipse';
 type TSizeType = 'small' | 'medium' | 'large' | 'max';
 
@@ -109,9 +109,10 @@ export default function Button({
   color = 'primary',
   size = 'medium',
   icon,
+  onClick,
 }: IButtonProps) {
   return (
-    <ButtonBlock shape={shape} size={size}>
+    <ButtonBlock shape={shape} size={size} color={color} onClick={onClick}>
       {children}
     </ButtonBlock>
   );

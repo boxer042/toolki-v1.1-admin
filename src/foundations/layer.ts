@@ -1,3 +1,5 @@
 export const layer = {
-  // 기본 크기
+  header: '5rem',
+  nav: '65px',
+  footer: '65px',
 };

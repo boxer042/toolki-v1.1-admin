@@ -14,7 +14,7 @@ const SearchInput = styled.input`
   height: 48px;
   width: 300px;
   border: 1px solid ${base.gray_Line};
-  padding: 5px 5px 7px 18px;
+  padding: 5px 5px 5px 20px;
   font-size: 1.125rem;
   &:focus {
     border: 1px solid ${base.primary};

@@ -6,6 +6,7 @@ export interface IBaseState {
   layer: boolean;
   header: boolean;
   footer: boolean;
+  modal: boolean;
   account: {
     visible: boolean;
   };
@@ -15,6 +16,7 @@ const initialState: IBaseState = {
   layer: false,
   header: true,
   footer: false,
+  modal: false,
   account: {
     visible: false,
   },
@@ -38,6 +40,12 @@ export const baseSlice = createSlice({
     isFooter: (state, action) => {
       state.footer = action.payload;
     },
+    openLayer: (state) => {
+      state.layer = true;
+    },
+    closeLayer: (state) => {
+      state.layer = false;
+    },
   },
   extraReducers: () => {},
 });
@@ -49,4 +57,6 @@ export const {
   closeAccountModal,
   isHeader,
   isFooter,
+  openLayer,
+  closeLayer,
 } = baseSlice.actions;
