@@ -4,6 +4,8 @@ import { zindex } from './../foundations/zindex';
 import { RiCloseFill } from 'react-icons/ri';
 import { base } from './../foundations/base';
 import transitions from './../lib/styles/transitions';
+import Button from './Button';
+import Dialog from './Dialog';
 
 const ModalBlock = styled.div<{ visible: boolean }>`
   position: fixed;
@@ -56,6 +58,8 @@ export interface IModalProps {
   children: React.ReactNode;
   onClose?: () => void;
   visible: boolean;
+  onAction?: () => void;
+  onDialog?: () => void;
 }
 
 export default function Modal({
@@ -63,7 +67,10 @@ export default function Modal({
   children,
   title,
   visible,
+  onAction,
+  onDialog,
 }: IModalProps) {
+  const [openDialog, setOpenDialog] = useState(false);
   const [closed, setClosed] = useState(true);
 
   useEffect(() => {
@@ -94,7 +101,20 @@ export default function Modal({
           <div />
         </ModalHeader>
         <div>{children}</div>
+        <div>
+          {onDialog ? (
+            <Button onClick={() => setOpenDialog(true)}>거래처 추가(1)</Button>
+          ) : (
+            <Button onClick={onAction}>거래처 추가</Button>
+          )}
+        </div>
       </ModalWrapper>
+      <Dialog
+        visible={openDialog}
+        onAction={onAction}
+        setOpenDialog={setOpenDialog}
+      />
+      ;
     </ModalBlock>
   );
 }

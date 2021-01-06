@@ -2,7 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { base } from './../foundations/base';
 
-const ButtonBlock = styled.button<{ shape: TShapeType; size: TSizeType; color: TColorType }>`
+const ButtonBlock = styled.button<{
+  shape: TShapeType;
+  size: TSizeType;
+  color: TColorType;
+}>`
   // 기본 버튼 속성
   display: inline-flex;
   align-items: center;
@@ -93,6 +97,7 @@ const ButtonBlock = styled.button<{ shape: TShapeType; size: TSizeType; color: T
 export type TColorType = 'primary' | 'secondary' | 'red';
 type TShapeType = 'default' | 'round' | 'ellipse';
 type TSizeType = 'small' | 'medium' | 'large' | 'max';
+type TButtonType = 'button' | 'submit' | 'reset';
 
 export interface IButtonProps {
   children: React.ReactNode;
@@ -101,6 +106,7 @@ export interface IButtonProps {
   size?: TSizeType;
   icon?: React.ReactNode;
   onClick?: () => void;
+  type?: TButtonType;
 }
 
 export default function Button({
@@ -109,11 +115,21 @@ export default function Button({
   color = 'primary',
   size = 'medium',
   icon,
+  type,
   onClick,
 }: IButtonProps) {
   return (
-    <ButtonBlock shape={shape} size={size} color={color} onClick={onClick}>
+    <ButtonBlock
+      shape={shape}
+      size={size}
+      color={color}
+      onClick={onClick}
+      type={type}
+    >
       {children}
     </ButtonBlock>
   );
 }
+
+//TODO 버튼 안쪽에 아이콘과 라벨이 같이 있을 떄 디자인해야함
+//TODO color props로 받았을 떄 변경하는거 만들어야함

@@ -128,7 +128,7 @@ export default function Account({ accounts, error }: IAccountProps) {
         <tbody>
           {accounts.length === 0 ? (
             <NoDataContainer>
-              <td colSpan={4}>
+              <td colSpan={5}>
                 <div>
                   <FaRegFrown />
                 </div>
