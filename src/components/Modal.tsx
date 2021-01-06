@@ -16,7 +16,6 @@ const ModalBlock = styled.div<{ visible: boolean }>`
   align-items: center;
   justify-content: center;
   z-index: ${zindex.modal};
-
   ${(props) =>
     props.visible
       ? css`
@@ -28,6 +27,7 @@ const ModalBlock = styled.div<{ visible: boolean }>`
 `;
 
 const Wrapper = styled.div`
+  position: relative;
   background-color: white;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
   width: 606px;
@@ -41,7 +41,7 @@ const Wrapper = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   border-bottom: 1px solid ${base.gray_Line};
   height: 56px;
   padding: 0 1rem;
@@ -50,18 +50,31 @@ const Header = styled.div`
 const CloseButton = styled.div`
   font-size: 1.5rem;
   display: flex;
-  align-items: center;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
   cursor: pointer;
 `;
 
-const Title = styled.h3`
-  display: flex;
+const Title = styled.div`
+  font-size: 1.125rem;
+  font-weight: 600;
 `;
 
 const Content = styled.div`
   padding: 0 1rem;
 `;
 
+const Footer = styled.div`
+  padding: 1rem;
+`;
+const Space = styled.div``;
+const Test = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid ${base.gray_Line};
+  padding-top: 1rem;
+`;
 export interface IModalProps {
   title?: string;
   children?: React.ReactNode;
@@ -70,14 +83,6 @@ export interface IModalProps {
   onAction?: () => void;
   disabled?: boolean;
 }
-
-const Footer = styled.div`
-  margin-top: 1rem;
-  border-top: 1px solid ${base.gray_Line};
-  padding: 1rem;
-  height: 56px;
-`;
-const Space = styled.div``;
 
 export default function Modal({
   onClose,
@@ -109,18 +114,19 @@ export default function Modal({
   return (
     <ModalBlock visible={visible}>
       <Wrapper>
+        <CloseButton onClick={onClose}>
+          <RiCloseFill />
+        </CloseButton>
         <Header>
-          <CloseButton onClick={onClose}>
-            <RiCloseFill />
-          </CloseButton>
           <Title>{title}</Title>
-          <Space />
         </Header>
         <Content>{children}</Content>
         <Footer>
-          <Button onClick={onAction} disabled={disabled}>
-            {title}
-          </Button>
+          <Test>
+            <Button onClick={onAction} disabled={disabled}>
+              {title}
+            </Button>
+          </Test>
         </Footer>
       </Wrapper>
     </ModalBlock>
