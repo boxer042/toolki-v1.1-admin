@@ -8,6 +8,8 @@ import AccountList from '../../templates/account/AccountList';
 import { RootState } from '../../modules';
 import useModal from './../../components/hooks/useModal';
 import { fetchAccounts } from '../../modules/accountsSlice';
+import useDialog from './../../components/hooks/useDialog';
+import Dialog from '../../components/Dialog';
 
 const AccountBlock = styled.div``;
 
@@ -20,6 +22,7 @@ export default function Account(props: IAccountProps) {
   );
 
   const [createModal, openCreateModal, closeCreateModal] = useModal(false);
+  const [createDialog, closeCreateDialog] = useDialog(false);
 
   const [inputs, setInputs] = useState({
     name: '',
@@ -38,10 +41,14 @@ export default function Account(props: IAccountProps) {
     dispatch(fetchAccounts());
   }, [dispatch]);
 
-  const onCreateAccount = useCallback(async (data: TInputs) => {
-    console.log(data);
-    closeCreateModal();
-  }, []);
+  const onCreateAccount = useCallback(
+    async (data: TInputs) => {
+      console.log(data);
+      closeCreateDialog();
+      closeCreateModal();
+    },
+    [closeCreateDialog, closeCreateModal],
+  );
 
   if (loading) return <p>로딩중...</p>;
   return (
@@ -62,10 +69,16 @@ export default function Account(props: IAccountProps) {
         visible={createModal}
         title={'거래처 추가'}
         onClose={closeCreateModal}
-        onAction={() => onCreateAccount(inputs)}
-        onDialog={() => onCreateAccount(inputs)}
+        onAction={closeCreateDialog}
+        disabled={inputs.name.length === 0 || error !== null}
       >
         <CreateAccount inputs={inputs} setInputs={setInputs} />
+        <Dialog
+          visible={createDialog}
+          title={inputs.name}
+          onClose={closeCreateDialog}
+          onAction={() => onCreateAccount(inputs)}
+        />
       </Modal>
     </AccountBlock>
   );

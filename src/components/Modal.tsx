@@ -5,7 +5,6 @@ import { RiCloseFill } from 'react-icons/ri';
 import { base } from './../foundations/base';
 import transitions from './../lib/styles/transitions';
 import Button from './Button';
-import Dialog from './Dialog';
 
 const ModalBlock = styled.div<{ visible: boolean }>`
   position: fixed;
@@ -28,10 +27,9 @@ const ModalBlock = styled.div<{ visible: boolean }>`
         `}
 `;
 
-const ModalWrapper = styled.div`
+const Wrapper = styled.div`
   background-color: white;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
-  padding: 0 1rem 1rem 1rem;
   width: 606px;
   @media (max-width: 743px) {
     flex: 1;
@@ -39,28 +37,47 @@ const ModalWrapper = styled.div`
     height: 100%;
   }
 `;
-const ModalHeader = styled.div`
+
+const Header = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid ${base.gray_Line};
-  height: 65px;
+  height: 56px;
+  padding: 0 1rem;
 `;
+
 const CloseButton = styled.div`
   font-size: 1.5rem;
   display: flex;
   align-items: center;
   cursor: pointer;
 `;
-const Title = styled.h2``;
+
+const Title = styled.h3`
+  display: flex;
+`;
+
+const Content = styled.div`
+  padding: 0 1rem;
+`;
+
 export interface IModalProps {
   title?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClose?: () => void;
   visible: boolean;
   onAction?: () => void;
-  onDialog?: () => void;
+  disabled?: boolean;
 }
+
+const Footer = styled.div`
+  margin-top: 1rem;
+  border-top: 1px solid ${base.gray_Line};
+  padding: 1rem;
+  height: 56px;
+`;
+const Space = styled.div``;
 
 export default function Modal({
   onClose,
@@ -68,9 +85,8 @@ export default function Modal({
   title,
   visible,
   onAction,
-  onDialog,
+  disabled,
 }: IModalProps) {
-  const [openDialog, setOpenDialog] = useState(false);
   const [closed, setClosed] = useState(true);
 
   useEffect(() => {
@@ -92,29 +108,23 @@ export default function Modal({
   if (!visible && closed) return null;
   return (
     <ModalBlock visible={visible}>
-      <ModalWrapper>
-        <ModalHeader>
+      <Wrapper>
+        <Header>
           <CloseButton onClick={onClose}>
             <RiCloseFill />
           </CloseButton>
           <Title>{title}</Title>
-          <div />
-        </ModalHeader>
-        <div>{children}</div>
-        <div>
-          {onDialog ? (
-            <Button onClick={() => setOpenDialog(true)}>거래처 추가(1)</Button>
-          ) : (
-            <Button onClick={onAction}>거래처 추가</Button>
-          )}
-        </div>
-      </ModalWrapper>
-      <Dialog
-        visible={openDialog}
-        onAction={onAction}
-        setOpenDialog={setOpenDialog}
-      />
-      ;
+          <Space />
+        </Header>
+        <Content>{children}</Content>
+        <Footer>
+          <Button onClick={onAction} disabled={disabled}>
+            {title}
+          </Button>
+        </Footer>
+      </Wrapper>
     </ModalBlock>
   );
 }
+
+//TODO content overflow (스크롤) 만들기

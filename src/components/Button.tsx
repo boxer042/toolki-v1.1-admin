@@ -7,7 +7,6 @@ const ButtonBlock = styled.button<{
   size: TSizeType;
   color: TColorType;
 }>`
-  // 기본 버튼 속성
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -19,6 +18,10 @@ const ButtonBlock = styled.button<{
   color: white;
   background-color: ${base.primary};
   border-radius: 7px;
+
+  &:disabled {
+    color: red;
+  }
   ${(props) => {
     if (props.shape === 'round') {
       if (props.size === 'small') {
@@ -107,6 +110,7 @@ export interface IButtonProps {
   icon?: React.ReactNode;
   onClick?: () => void;
   type?: TButtonType;
+  disabled?: boolean;
 }
 
 export default function Button({
@@ -117,6 +121,7 @@ export default function Button({
   icon,
   type,
   onClick,
+  disabled,
 }: IButtonProps) {
   return (
     <ButtonBlock
@@ -125,6 +130,7 @@ export default function Button({
       color={color}
       onClick={onClick}
       type={type}
+      disabled={disabled}
     >
       {children}
     </ButtonBlock>

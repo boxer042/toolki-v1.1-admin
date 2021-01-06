@@ -28,29 +28,33 @@ const Wrapper = styled.div`
 export interface IDialogProps {
   visible: boolean;
   onAction?: () => void;
-  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose?: () => void;
+  title?: string;
+  disabled?: boolean;
 }
 
 export default function Dialog({
   visible,
-  setOpenDialog,
+  title,
+  onClose,
   onAction,
+  disabled,
 }: IDialogProps) {
-  const setAction = () => {
-    onAction(false);
-  };
-
   if (!visible) return null;
   return (
     <DialogBlock>
       <Wrapper>
-        <div>다이얼로그</div>
+        <div>{title}</div>
         <div>뭐할껀데?</div>
         <div>
-          <Button onClick={() => setOpenDialog(false)}>취소</Button>
-          <Button onClick={setAction}>확인</Button>
+          <Button disabled={disabled} onClick={onClose}>
+            취소
+          </Button>
+          <Button onClick={onAction}>확인</Button>
         </div>
       </Wrapper>
     </DialogBlock>
   );
 }
+
+//cancelText confirmText

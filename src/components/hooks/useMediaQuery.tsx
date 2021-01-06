@@ -10,7 +10,6 @@ export default function useMediaQuery(query: string) {
     }
     const listener = () => {
       setMatches(media.matches);
-      console.log(matches);
     };
     media.addListener(listener);
     return () => {

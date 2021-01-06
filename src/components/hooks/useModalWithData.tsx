@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { StructuredType } from 'typescript';
 import { openModal, closeModal } from '../../modules/baseSlice';
 
 export default function useModalWithData(
