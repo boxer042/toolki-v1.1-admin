@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { palette } from './../foundations/palette';
 import { base } from './../foundations/base';
 
@@ -14,7 +14,7 @@ const InputGroup = styled.div`
   position: relative;
 `;
 
-const InputWrapper = styled.input`
+const InputWrapper = styled.input<{ error: boolean }>`
   padding: 0.75rem 2.35rem 0.75rem 0.75rem;
   border: 1px solid ${base.gray_Line};
   border-radius: 4px;
@@ -26,6 +26,11 @@ const InputWrapper = styled.input`
   &::placeholder {
     color: ${base.gray_Line};
   }
+  ${(props) =>
+    props.error &&
+    css`
+      border: 1px solid ${base.red_Line};
+    `}
 `;
 
 const Label = styled.div`
@@ -69,7 +74,7 @@ export default function Input({
   icon,
   placeholder,
   label,
-  error,
+  error = '',
   required,
   type,
   value,
@@ -89,10 +94,11 @@ export default function Input({
           type={type}
           value={value}
           onChange={onChange}
+          error={error?.length !== 0 ? true : false}
         />
         <Icon>{icon}</Icon>
       </InputGroup>
-      {error ? <Error>{error}</Error> : undefined}
+      {error && <Error>{error}</Error>}
     </InputBlock>
   );
 }

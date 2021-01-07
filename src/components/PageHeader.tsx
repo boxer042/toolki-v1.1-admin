@@ -2,11 +2,11 @@ import React from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import styled from 'styled-components';
 import { base } from './../foundations/base';
-import Button from './Button';
+import Button from './button/Button';
 import { layer } from './../foundations/layer';
 import { RootState } from '../modules';
 import { useSelector } from 'react-redux';
-import { TColorType } from '../components/Button';
+import { TColorType, TSizeType } from './button/Button';
 
 const PageHeaderBlock = styled.div`
   width: 100%;
@@ -40,15 +40,19 @@ const PageTitle = styled.h2`
   display: flex;
   align-items: center;
 `;
-
-type TButton = {
+// 버튼수정
+type TModalButtonType = {
   label: string;
   color: TColorType;
+  size?: TSizeType;
   onClick: () => void;
+  fullWidths?: boolean;
+  disabled?: boolean;
+  outlined?: boolean;
 };
 export interface IPageHeaderProps {
   title: string;
-  buttons?: TButton[];
+  buttons?: TModalButtonType[];
 }
 
 export default function PageHeader({ title, buttons }: IPageHeaderProps) {
@@ -65,8 +69,16 @@ export default function PageHeader({ title, buttons }: IPageHeaderProps) {
       </Start>
       <div>
         {buttons
-          ? buttons.map((button: TButton, index: number) => (
-              <Button key={index} color={button.color} onClick={button.onClick}>
+          ? buttons.map((button: TModalButtonType, index: number) => (
+              <Button
+                key={index}
+                color={button.color}
+                size={button.size}
+                onClick={button.onClick}
+                disabled={button.disabled}
+                fullWidths={button.fullWidths}
+                outlined={button.outlined}
+              >
                 {button.label}
               </Button>
             ))

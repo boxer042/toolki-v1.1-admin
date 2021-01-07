@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { base } from './../foundations/base';
+import { base } from '../../foundations/base';
 
 const ButtonBlock = styled.button<{
   shape: TShapeType;
@@ -97,7 +97,7 @@ const ButtonBlock = styled.button<{
   }
 `;
 
-export type TColorType = 'primary' | 'secondary' | 'red';
+type TColorType = 'primary' | 'secondary' | 'red';
 type TShapeType = 'default' | 'round' | 'ellipse';
 type TSizeType = 'small' | 'medium' | 'large' | 'max';
 type TButtonType = 'button' | 'submit' | 'reset';
@@ -105,7 +105,7 @@ type TButtonType = 'button' | 'submit' | 'reset';
 export interface IButtonProps {
   children: React.ReactNode;
   shape?: TShapeType;
-  color?: TColorType;
+  color?: any;
   size?: TSizeType;
   icon?: React.ReactNode;
   onClick?: () => void;

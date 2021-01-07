@@ -2,7 +2,7 @@ import React from 'react';
 import { FiSearch } from 'react-icons/fi';
 import styled from 'styled-components';
 import { base } from '../../foundations/base';
-import Button from '../Button';
+import RoundButton from '../button/RoundButton';
 
 const GlobalSearchBlock = styled.div`
   position: relative;
@@ -38,9 +38,9 @@ export default function GlobalSearch(props: IGlobalSearchProps) {
     <GlobalSearchBlock>
       <SearchInput placeholder="검색 시작하기" />
       <SearchIcon>
-        <Button shape="round">
+        <RoundButton>
           <FiSearch />
-        </Button>
+        </RoundButton>
       </SearchIcon>
     </GlobalSearchBlock>
   );

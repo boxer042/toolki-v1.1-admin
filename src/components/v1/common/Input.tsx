@@ -56,7 +56,7 @@ export interface IInputProps {
   reactIcon?: React.ReactNode;
   placeholder?: string;
   label?: string;
-  error?: string;
+  error?: string | null;
   required?: boolean;
   type?: string;
   value?: string | number;

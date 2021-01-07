@@ -4,7 +4,8 @@ import { zindex } from './../foundations/zindex';
 import { RiCloseFill } from 'react-icons/ri';
 import { base } from './../foundations/base';
 import transitions from './../lib/styles/transitions';
-import Button from './Button';
+import Button, { TSizeType } from './button/Button';
+import { TColorType } from './button/Button';
 
 const ModalBlock = styled.div<{ visible: boolean }>`
   position: fixed;
@@ -63,25 +64,35 @@ const Title = styled.div`
 
 const Content = styled.div`
   padding: 0 1rem;
+  overflow-y: auto;
 `;
 
 const Footer = styled.div`
   padding: 1rem;
 `;
-const Space = styled.div``;
-const Test = styled.div`
+
+const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   border-top: 1px solid ${base.gray_Line};
   padding-top: 1rem;
 `;
+
+type TModalButtonType = {
+  label: string;
+  color: TColorType;
+  size?: TSizeType;
+  onClick: () => void;
+  fullWidths?: boolean;
+  disabled?: boolean;
+};
+
 export interface IModalProps {
   title?: string;
   children?: React.ReactNode;
   onClose?: () => void;
   visible: boolean;
-  onAction?: () => void;
-  disabled?: boolean;
+  buttons?: TModalButtonType[];
 }
 
 export default function Modal({
@@ -89,8 +100,7 @@ export default function Modal({
   children,
   title,
   visible,
-  onAction,
-  disabled,
+  buttons,
 }: IModalProps) {
   const [closed, setClosed] = useState(true);
 
@@ -122,11 +132,24 @@ export default function Modal({
         </Header>
         <Content>{children}</Content>
         <Footer>
-          <Test>
-            <Button onClick={onAction} disabled={disabled}>
+          <ButtonWrapper>
+            {buttons &&
+              buttons.map((button: TModalButtonType, index: number) => (
+                <Button
+                  key={index}
+                  color={button.color}
+                  size={button.size}
+                  onClick={button.onClick}
+                  disabled={button.disabled}
+                  fullWidths={button.fullWidths}
+                >
+                  {button.label}
+                </Button>
+              ))}
+            {/* <Button onClick={onAction} disabled={disabled}>
               {title}
-            </Button>
-          </Test>
+            </Button> */}
+          </ButtonWrapper>
         </Footer>
       </Wrapper>
     </ModalBlock>

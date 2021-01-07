@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FiHome, FiShoppingBag, FiUsers } from 'react-icons/fi';
+import { FiHome, FiShoppingBag, FiUsers, FiTool } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 import { RiBuilding4Line, RiLineChartLine } from 'react-icons/ri';
 import { base } from './../../foundations/base';
@@ -66,6 +66,12 @@ export default function MobileNav(props: IMobileNavProps) {
           <FiUsers />
         </Icon>
         <Title>고객</Title>
+      </Menu>
+      <Menu to="/component">
+        <Icon>
+          <FiTool />
+        </Icon>
+        <Title>컴포넌트</Title>
       </Menu>
     </MobileNavBlock>
   );

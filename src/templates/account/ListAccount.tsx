@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IAccount } from '../../modules/accountsSlice';
-import { replacePhone } from './../../lib/utils';
-import { palette } from './../../foundations/palette';
-import { base } from './../../foundations/base';
+import { replacePhone } from '../../lib/utils';
+import { palette } from '../../foundations/palette';
+import { base } from '../../foundations/base';
 import Modal from '../../components/Modal';
-import useModalWithData from './../../components/hooks/useModalWithData';
-import { FiTrash2 } from 'react-icons/fi';
-import Button from '../../components/Button';
+import useModalWithData from '../../components/hooks/useModalWithData';
+import { FiAlertCircle, FiEdit, FiStar, FiTrash2 } from 'react-icons/fi';
+import Button from '../../components/button/Button';
 import { FaRegFrown } from 'react-icons/fa';
+import RoundButton from '../../components/button/RoundButton';
 
-const AccountListBlock = styled.div`
-  padding: 1rem;
+const ListAccountBlock = styled.div`
+  padding: 0 1rem;
   table {
     width: 100%;
     border-collapse: collapse;
@@ -30,15 +31,17 @@ const AccountListBlock = styled.div`
     padding: 1rem;
     border-bottom: 1px solid ${base.gray_Line};
   }
+  .column_star {
+    width: 56px;
+  }
   .column_name {
-    width: 10%;
+    width: 200px;
   }
   .column_office {
   }
   .column_fax {
   }
   .column_address {
-    width: 30%;
   }
   @media (max-width: 743px) {
     table {
@@ -63,12 +66,12 @@ const NoDataContainer = styled.tr`
   }
 `;
 
-export interface IAccountListProps {
+export interface IListAccountProps {
   accounts: IAccount[];
   error?: string;
 }
 
-export default function AccountList({ accounts, error }: IAccountListProps) {
+export default function ListAccount({ accounts, error }: IListAccountProps) {
   const [visible, selected, setSelected, onOpen, onClose] = useModalWithData(
     false,
     null,
@@ -76,10 +79,11 @@ export default function AccountList({ accounts, error }: IAccountListProps) {
 
   console.log(selected);
   return (
-    <AccountListBlock>
+    <ListAccountBlock>
       <table>
         <thead>
           <tr>
+            <td className="column_star"></td>
             <th className="column_name">거래처명</th>
             <th className="column_office">사무실</th>
             <th className="column_fax">팩스</th>
@@ -106,14 +110,25 @@ export default function AccountList({ accounts, error }: IAccountListProps) {
                   onOpen();
                 }}
               >
+                <td>
+                  <RoundButton color="white">
+                    <FiStar />
+                  </RoundButton>
+                </td>
                 <td>{account.name}</td>
                 <td>{replacePhone(account.contact.office)}</td>
                 <td>{replacePhone(account.contact.fax)}</td>
                 <td className="data_address">{account.detail.address}</td>
-                <td>
-                  <Button size="small" shape="round">
+                <td style={{ textAlign: 'right' }}>
+                  <RoundButton color="white">
+                    <FiAlertCircle />
+                  </RoundButton>
+                  <RoundButton color="white">
+                    <FiEdit />
+                  </RoundButton>
+                  <RoundButton color="white">
                     <FiTrash2 />
-                  </Button>
+                  </RoundButton>
                 </td>
               </tr>
             ))
@@ -123,6 +138,6 @@ export default function AccountList({ accounts, error }: IAccountListProps) {
       <Modal visible={visible} onClose={onClose}>
         <div>{selected && selected.name}</div>
       </Modal>
-    </AccountListBlock>
+    </ListAccountBlock>
   );
 }

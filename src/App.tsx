@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AccountsPage from './pages/AccountsPage';
 import DashboardPage from './pages/DashboardPage';
 import PurchasePage from './pages/PurchasePage';
+import ComponentPage from './pages/ComponentPage';
 import GlobalStyles from './GlobalStyles';
 import Core from './containers/base/Core';
 import Header from './templates/header/Header';
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/" component={DashboardPage} />
           <Route path="/purchase" component={PurchasePage} />
           <Route path="/accounts" component={AccountsPage} />
+          <Route path="/component" component={ComponentPage} />
         </Switch>
       </Content>
     </BrowserRouter>

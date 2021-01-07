@@ -5,6 +5,8 @@ export default function useDialog(defaultVisible: boolean) {
   const [visible, setVisible] = useState(defaultVisible);
 
   const toggle = () => setVisible(!visible);
+  const open = () => setVisible(true);
+  const close = () => setVisible(false);
 
-  return [visible, toggle] as [boolean, typeof toggle];
+  return [visible, open, close] as [boolean, typeof open, typeof close];
 }

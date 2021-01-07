@@ -4,7 +4,7 @@ import { zindex } from './../foundations/zindex';
 import { RiCloseFill } from 'react-icons/ri';
 import { base } from './../foundations/base';
 import transitions from './../lib/styles/transitions';
-import Button from './Button';
+import Button from './button/Button';
 
 const DialogBlock = styled.div`
   position: fixed;
@@ -20,14 +20,34 @@ const DialogBlock = styled.div`
 `;
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   background-color: white;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
-  width: 300px;
+  border-radius: 4px;
+  min-width: 240px;
+  max-height: 360px;
+  position: absolute;
+`;
+const Header = styled.div`
+  font-size: 1.25rem;
+  padding: 9px 24px 9px;
+  font-weight: 600;
+`;
+const Content = styled.div`
+  padding: 20px 24px;
+`;
+
+const Footer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px;
 `;
 
 export interface IDialogProps {
   visible: boolean;
-  onAction?: () => void;
+  onClick?: () => void;
   onClose?: () => void;
   title?: string;
   disabled?: boolean;
@@ -37,21 +57,23 @@ export default function Dialog({
   visible,
   title,
   onClose,
-  onAction,
+  onClick,
   disabled,
 }: IDialogProps) {
   if (!visible) return null;
   return (
     <DialogBlock>
       <Wrapper>
-        <div>{title}</div>
-        <div>뭐할껀데?</div>
-        <div>
-          <Button disabled={disabled} onClick={onClose}>
+        <Header>알림</Header>
+        <Content>{title}를 추가하시겠습니까 ?</Content>
+        <Footer>
+          <Button color="white" onClick={onClose}>
             취소
           </Button>
-          <Button onClick={onAction}>확인</Button>
-        </div>
+          <Button color="white" disabled={disabled} onClick={onClick}>
+            확인
+          </Button>
+        </Footer>
       </Wrapper>
     </DialogBlock>
   );
