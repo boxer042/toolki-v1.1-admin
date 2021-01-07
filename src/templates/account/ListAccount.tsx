@@ -23,12 +23,13 @@ const ListAccountBlock = styled.div`
     color: ${base.gray_SubTitle};
   }
   th {
-    padding: 1rem;
+    padding: 0.5rem;
     /* background-color: ${palette.gray0}; */
+    background-color: #edf2ff;
   }
   td {
     color: ${base.gray_Title};
-    padding: 1rem;
+    padding: 0.5rem;
     border-bottom: 1px solid ${base.gray_Line};
   }
   .column_star {
@@ -83,7 +84,7 @@ export default function ListAccount({ accounts, error }: IListAccountProps) {
       <table>
         <thead>
           <tr>
-            <td className="column_star"></td>
+            <th className="column_star"></th>
             <th className="column_name">거래처명</th>
             <th className="column_office">사무실</th>
             <th className="column_fax">팩스</th>
