@@ -7,7 +7,12 @@ import CreateAccount, { TInputs } from '../../templates/account/CreateAcount';
 import ListAccount from '../../templates/account/ListAccount';
 import { RootState } from '../../modules';
 import useModal from './../../components/hooks/useModal';
-import { createAccount, fetchAccounts } from '../../modules/accountsSlice';
+import {
+  createAccount,
+  fetchAccounts,
+  deleteAccount,
+  favoritesAccount,
+} from '../../modules/accountsSlice';
 import useDialog from './../../components/hooks/useDialog';
 import Dialog from '../../components/Dialog';
 import { accountValidate } from './../../lib/validate';
@@ -24,6 +29,7 @@ export default function Account(props: IAccountProps) {
 
   const [createModal, openCreateModal, closeCreateModal] = useModal(false);
   const [createDialog, openCreateDialog, closeCreateDialog] = useDialog(false);
+
   const [errors, setErrors] = useState({});
   const [submited, setSubmited] = useState(false);
   const [inputs, setInputs] = useState({
@@ -75,10 +81,28 @@ export default function Account(props: IAccountProps) {
       };
       dispatch(createAccount(account));
       closeCreateDialog();
+      if (error === 'Request failed with status code 400') {
+        setErrors({ name: '중복' });
+        return;
+      }
+
       closeCreateModal();
     },
     [dispatch, closeCreateDialog, closeCreateModal],
   );
+
+  const onDeleteAccount = useCallback(
+    (_id: string, name: string) => {
+      console.log(name); // 연구용
+      dispatch(deleteAccount(_id));
+    },
+    [dispatch],
+  );
+  const onUpdateAccount = useCallback(() => {}, []);
+
+  const toogleFavoritesAccount = (_id: string, favorites: boolean) => {
+    dispatch(favoritesAccount({ _id, favorites }));
+  };
 
   if (loading) return <p>로딩중...</p>;
   return (
@@ -97,10 +121,24 @@ export default function Account(props: IAccountProps) {
       <div style={{ padding: '1rem', paddingBottom: '0' }}>
         <div style={{ borderBottom: '1px solid #ddd', height: '90px' }}>
           <div>거래처 등록 수 : 20개</div>
-          <div>즐겨찾기 : 광성분무기 선일농기계 (주)범양</div>
+          <div style={{ display: 'flex' }}>
+            즐겨찾기 :
+            {accounts.map(
+              (account) =>
+                account.favorites && (
+                  <div style={{ marginLeft: '1rem' }}>{account.name}</div>
+                ),
+            )}
+          </div>
         </div>
       </div>
-      <ListAccount accounts={accounts} error={error} />
+      <ListAccount
+        accounts={accounts}
+        error={error}
+        onDeleteAccount={onDeleteAccount}
+        toogleFavoritesAccount={toogleFavoritesAccount}
+      />
+
       {/* Create Account Modal */}
       <Modal
         visible={createModal}

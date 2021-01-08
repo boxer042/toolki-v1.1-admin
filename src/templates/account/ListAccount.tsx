@@ -10,6 +10,8 @@ import { FiAlertCircle, FiEdit, FiStar, FiTrash2 } from 'react-icons/fi';
 import Button from '../../components/button/Button';
 import { FaRegFrown } from 'react-icons/fa';
 import RoundButton from '../../components/button/RoundButton';
+import useDialog from './../../components/hooks/useDialog';
+import Dialog from '../../components/Dialog';
 
 const ListAccountBlock = styled.div`
   padding: 0 1rem;
@@ -70,15 +72,23 @@ const NoDataContainer = styled.tr`
 export interface IListAccountProps {
   accounts: IAccount[];
   error?: string;
+  onDeleteAccount: (id: string, name: string) => void;
+  toogleFavoritesAccount: (_id: string, favorites: boolean) => void;
 }
 
-export default function ListAccount({ accounts, error }: IListAccountProps) {
+export default function ListAccount({
+  accounts,
+  error,
+  onDeleteAccount,
+  toogleFavoritesAccount,
+}: IListAccountProps) {
   const [visible, selected, setSelected, onOpen, onClose] = useModalWithData(
     false,
     null,
   );
+  const [deleteDialog, openDeleteDialog, closeDeleteDialog] = useDialog(false);
+  const [deleteId, setDeleteId] = useState({ _id: '', name: '' });
 
-  console.log(selected);
   return (
     <ListAccountBlock>
       <table>
@@ -104,17 +114,21 @@ export default function ListAccount({ accounts, error }: IListAccountProps) {
             </NoDataContainer>
           ) : (
             accounts.map((account) => (
-              <tr
-                key={account._id}
-                onClick={() => {
-                  setSelected(account);
-                  onOpen();
-                }}
-              >
-                <td>
-                  <RoundButton color="white">
-                    <FiStar />
-                  </RoundButton>
+              <tr key={account._id}>
+                <td
+                  onClick={() => {
+                    toogleFavoritesAccount(account._id, account.favorites);
+                  }}
+                >
+                  {account.favorites ? (
+                    <RoundButton color="white" style={{ color: 'red' }}>
+                      <FiStar />
+                    </RoundButton>
+                  ) : (
+                    <RoundButton color="white">
+                      <FiStar />
+                    </RoundButton>
+                  )}
                 </td>
                 <td>{account.name}</td>
                 <td>{replacePhone(account.contact.office)}</td>
@@ -127,7 +141,14 @@ export default function ListAccount({ accounts, error }: IListAccountProps) {
                   <RoundButton color="white">
                     <FiEdit />
                   </RoundButton>
-                  <RoundButton color="white">
+                  <RoundButton
+                    color="white"
+                    onClick={() => {
+                      openDeleteDialog();
+                      setDeleteId(account);
+                      // onDeleteAccount(account._id);
+                    }}
+                  >
                     <FiTrash2 />
                   </RoundButton>
                 </td>
@@ -136,9 +157,16 @@ export default function ListAccount({ accounts, error }: IListAccountProps) {
           )}
         </tbody>
       </table>
-      <Modal visible={visible} onClose={onClose}>
-        <div>{selected && selected.name}</div>
-      </Modal>
+      <Dialog
+        visible={deleteDialog}
+        onClose={closeDeleteDialog}
+        title={deleteId.name}
+        mode="delate"
+        onClick={() => {
+          onDeleteAccount(deleteId._id, deleteId.name);
+          closeDeleteDialog();
+        }}
+      />
     </ListAccountBlock>
   );
 }

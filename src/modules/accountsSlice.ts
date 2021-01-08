@@ -11,6 +11,16 @@ export const fetchAccounts = createAsyncThunk(
   },
 );
 
+export const deleteAccount = createAsyncThunk(
+  `${name}/deleteAccount`,
+  async (_id: string, thunkAPI) => {
+    const res = await Axios.post('http://localhost:4000/account/delete', {
+      _id: _id,
+    });
+    return res.data;
+  },
+);
+
 export const createAccount = createAsyncThunk(
   `${name}/createAccount`,
   async (
@@ -38,6 +48,17 @@ export const createAccount = createAsyncThunk(
   },
 );
 
+export const favoritesAccount = createAsyncThunk(
+  `${name}/favoriteAccount`,
+  async ({ _id, favorites }: { _id: string; favorites: boolean }, thunkAPI) => {
+    const res = await Axios.post('http://localhost:4000/account/favorites', {
+      _id: _id,
+      favorites: favorites,
+    });
+    return res.data;
+  },
+);
+
 export interface IAccount {
   _id: string;
   name: string;
@@ -55,17 +76,20 @@ export interface IAccount {
     businessNumber: string;
     ceo: string;
   };
+  favorites: boolean;
 }
 export interface IAccountsState {
   accounts: IAccount[];
   loading: boolean;
   error?: string;
+  message?: string;
 }
 
 const initialState: IAccountsState = {
   accounts: [],
   loading: false,
   error: '',
+  message: '',
 };
 
 export const accountsSlice = createSlice({
@@ -96,10 +120,26 @@ export const accountsSlice = createSlice({
       state.loading = false;
       state.error = action.error.message;
     });
+    builder.addCase(deleteAccount.fulfilled, (state, action) => {
+      const account = state.accounts.filter(
+        (account) => account._id !== action.payload._id,
+      );
+      state.accounts = account;
+    });
+    builder.addCase(favoritesAccount.fulfilled, (state, action) => {
+      state.accounts.filter((account) => {
+        if (account._id === action.payload._id) {
+          account.favorites = action.payload.favorites;
+        }
+        return account.favorites;
+      });
+    });
   },
 });
 
 export default accountsSlice.reducer;
+
+export const {} = accountsSlice.actions;
 
 // const listState = (state: RootState) => state.todoSlice.lists;
 

@@ -28,6 +28,7 @@ const ButtonBlock = styled.button<{
     margin-left: 0.5rem;
   }
   &:disabled {
+    cursor: not-allowed;
     text-decoration: line-through;
   }
 
@@ -80,13 +81,13 @@ export type TColorType = 'primary' | 'white' | 'red';
 export type TSizeType = 'small' | 'medium' | 'large';
 
 // extends ButtonHTMLAttributes<HTMLButtonElement>
-export interface IButtonProps {
+export interface IButtonProps
+  extends Omit<React.HTMLProps<HTMLButtonElement>, 'size'> {
   children: React.ReactNode;
   color?: TColorType;
   size?: TSizeType;
   type?: TButtonType;
   onClick?: () => void;
-  disabled?: boolean;
   fullWidths?: boolean;
   outlined?: boolean;
 }
@@ -97,18 +98,19 @@ export default function Button({
   size = 'medium',
   type,
   onClick,
-  disabled,
   fullWidths = false,
   outlined = false,
+  ...rest
 }: IButtonProps) {
+  const htmlProps = rest as any;
   return (
     <ButtonBlock
       color={color}
       size={size}
       fullWidths={fullWidths}
       outlined={outlined}
-      disabled={disabled}
       onClick={onClick}
+      {...htmlProps}
     >
       {children}
     </ButtonBlock>

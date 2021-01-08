@@ -21,8 +21,7 @@ const RoundButtonBlock = styled.button<{
   padding-bottom: 0;
   color: ${(props) => buttonColorMap[props.color].color};
   background-color: ${(props) => buttonColorMap[props.color].background};
-  &:hover,
-  &:focus {
+  &:hover {
     background: ${(props) => buttonColorMap[props.color].hoverBackground};
   }
   & + & {
@@ -61,13 +60,13 @@ const RoundButtonBlock = styled.button<{
     `}
 `;
 
-export interface IRoundButtonProps {
+export interface IRoundButtonProps
+  extends Omit<React.HTMLProps<HTMLButtonElement>, 'size'> {
   children: React.ReactNode;
   color?: TColorType;
   size?: TSizeType;
   type?: TButtonType;
   onClick?: () => void;
-  disabled?: boolean;
   fullWidths?: boolean;
   outlined?: boolean;
 }
@@ -78,17 +77,19 @@ export default function RoundButton({
   size = 'medium',
   type,
   onClick,
-  disabled,
   fullWidths = false,
   outlined = false,
+  ...rest
 }: IRoundButtonProps) {
+  const htmlProps = rest as any;
   return (
     <RoundButtonBlock
       color={color}
       size={size}
       fullWidths={fullWidths}
       outlined={outlined}
-      disabled={disabled}
+      onClick={onClick}
+      {...htmlProps}
     >
       {children}
     </RoundButtonBlock>

@@ -4,7 +4,7 @@ import { openModal, closeModal } from '../../modules/baseSlice';
 
 export default function useModalWithData(
   defaultVisible: boolean,
-  defaultSelected: any | null,
+  defaultSelected: object | null,
 ) {
   const [visible, setVisible] = useState(defaultVisible);
   const [selected, setSelected] = useState<object | null>(defaultSelected);

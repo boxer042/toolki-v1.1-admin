@@ -51,6 +51,7 @@ export interface IDialogProps {
   onClose?: () => void;
   title?: string;
   disabled?: boolean;
+  mode?: 'add' | 'delate';
 }
 
 export default function Dialog({
@@ -59,13 +60,16 @@ export default function Dialog({
   onClose,
   onClick,
   disabled,
+  mode = 'add',
 }: IDialogProps) {
   if (!visible) return null;
   return (
     <DialogBlock>
       <Wrapper>
         <Header>알림</Header>
-        <Content>{title}를 추가하시겠습니까 ?</Content>
+        <Content>
+          {title}를 {mode === 'add' ? '추가' : '삭제'}하시겠습니까 ?
+        </Content>
         <Footer>
           <Button color="white" onClick={onClose}>
             취소
