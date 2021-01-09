@@ -17,8 +17,6 @@ import useDialog from './../../components/hooks/useDialog';
 import Dialog from '../../components/Dialog';
 import { accountValidate } from './../../lib/validate';
 
-const AccountBlock = styled.div``;
-
 export interface IAccountProps {}
 
 export default function Account(props: IAccountProps) {
@@ -81,11 +79,6 @@ export default function Account(props: IAccountProps) {
       };
       dispatch(createAccount(account));
       closeCreateDialog();
-      if (error === 'Request failed with status code 400') {
-        setErrors({ name: '중복' });
-        return;
-      }
-
       closeCreateModal();
     },
     [dispatch, closeCreateDialog, closeCreateModal],
@@ -106,7 +99,7 @@ export default function Account(props: IAccountProps) {
 
   if (loading) return <p>로딩중...</p>;
   return (
-    <AccountBlock>
+    <>
       <PageHeader
         title="거래처"
         buttons={[
@@ -162,7 +155,7 @@ export default function Account(props: IAccountProps) {
         <CreateAccount
           inputs={inputs}
           setInputs={setInputs}
-          errors={errors}
+          // errors={errors}
           submited={submited}
           setSubmited={setSubmited}
           onAction={openCreateDialog}
@@ -174,6 +167,6 @@ export default function Account(props: IAccountProps) {
           onClick={() => onCreateAccount(inputs)}
         />
       </Modal>
-    </AccountBlock>
+    </>
   );
 }

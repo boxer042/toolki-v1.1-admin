@@ -1,10 +1,10 @@
 import React from 'react';
-import Accounts from '../containers/accounts/Accounts';
+import AccountContainer from '../containers/account/AccountContainer';
 
 export default function AccountsPage() {
   return (
     <>
-      <Accounts />
+      <AccountContainer />
     </>
   );
 }

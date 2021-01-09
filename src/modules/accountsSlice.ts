@@ -95,7 +95,16 @@ const initialState: IAccountsState = {
 export const accountsSlice = createSlice({
   name,
   initialState,
-  reducers: {},
+  reducers: {
+    createPending: (state) => {},
+    createFulfilled: (state, action) => {
+      const account = state.accounts.concat(action.payload); // ...state
+      state.accounts = account;
+    },
+    createRejected: (state, action) => {
+      state.error = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchAccounts.pending, (state, action) => {
       state.loading = true;
@@ -139,7 +148,11 @@ export const accountsSlice = createSlice({
 
 export default accountsSlice.reducer;
 
-export const {} = accountsSlice.actions;
+export const {
+  createPending,
+  createFulfilled,
+  createRejected,
+} = accountsSlice.actions;
 
 // const listState = (state: RootState) => state.todoSlice.lists;
 

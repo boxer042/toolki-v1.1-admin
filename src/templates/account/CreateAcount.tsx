@@ -68,14 +68,14 @@ export default function CreateAccount({
     ceo,
   } = inputs;
 
-  useEffect(() => {
-    if (submited) {
-      if (Object.keys(errors).length === 0) {
-        onAction();
-      }
-      setSubmited(false);
-    }
-  }, [errors, submited, setSubmited, onAction]);
+  // useEffect(() => {
+  //   if (submited) {
+  //     if (Object.keys(errors).length === 0) {
+  //       onAction();
+  //     }
+  //     setSubmited(false);
+  //   }
+  // }, [errors, submited, setSubmited, onAction]);
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
