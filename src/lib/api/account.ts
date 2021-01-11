@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-export const createAccount = (form: {
+export const createAccount = (form: CreateAccountFormData) =>
+  axios.post('http://localhost:4000/account/add', form);
+
+type CreateAccountFormData = {
   name: string;
   contact: {
     office: string;
@@ -16,4 +19,20 @@ export const createAccount = (form: {
     businessNumber: string;
     ceo: string;
   };
-}) => axios.post('http://localhost:4000/account/add', form);
+};
+
+// Account Favorite
+export const togglefavoritesAccount = async ({
+  _id,
+  favorites,
+}: {
+  _id: string;
+  favorites: boolean;
+}) =>
+  await axios.post('http://localhost:4000/account/favorites', {
+    _id: _id,
+    favorites: favorites,
+  });
+
+export const getAccount = (id: string) =>
+  axios.get(`http://localhost:4000/account/detail/${id}`);

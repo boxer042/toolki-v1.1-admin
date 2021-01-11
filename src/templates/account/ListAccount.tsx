@@ -7,11 +7,12 @@ import { base } from '../../foundations/base';
 import Modal from '../../components/Modal';
 import useModalWithData from '../../components/hooks/useModalWithData';
 import { FiAlertCircle, FiEdit, FiStar, FiTrash2 } from 'react-icons/fi';
-import Button from '../../components/button/Button';
 import { FaRegFrown } from 'react-icons/fa';
 import RoundButton from '../../components/button/RoundButton';
 import useDialog from './../../components/hooks/useDialog';
 import Dialog from '../../components/Dialog';
+import { RiStarFill, RiStarLine } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 
 const ListAccountBlock = styled.div`
   padding: 0 1rem;
@@ -88,7 +89,7 @@ export default function ListAccount({
   );
   const [deleteDialog, openDeleteDialog, closeDeleteDialog] = useDialog(false);
   const [deleteId, setDeleteId] = useState({ _id: '', name: '' });
-
+  console.log(selected);
   return (
     <ListAccountBlock>
       <table>
@@ -121,16 +122,20 @@ export default function ListAccount({
                   }}
                 >
                   {account.favorites ? (
-                    <RoundButton color="white" style={{ color: 'red' }}>
-                      <FiStar />
+                    <RoundButton color="white" style={{ color: '#f59f00' }}>
+                      <RiStarFill />
                     </RoundButton>
                   ) : (
                     <RoundButton color="white">
-                      <FiStar />
+                      <RiStarLine />
                     </RoundButton>
                   )}
                 </td>
-                <td>{account.name}</td>
+                <td>
+                  <Link to={`/accounts/detail/${account._id}`}>
+                    {account.name}
+                  </Link>
+                </td>
                 <td>{replacePhone(account.contact.office)}</td>
                 <td>{replacePhone(account.contact.fax)}</td>
                 <td className="data_address">{account.detail.address}</td>
@@ -138,7 +143,12 @@ export default function ListAccount({
                   <RoundButton color="white">
                     <FiAlertCircle />
                   </RoundButton>
-                  <RoundButton color="white">
+                  <RoundButton
+                    color="white"
+                    onClick={() => {
+                      setSelected(account);
+                    }}
+                  >
                     <FiEdit />
                   </RoundButton>
                   <RoundButton

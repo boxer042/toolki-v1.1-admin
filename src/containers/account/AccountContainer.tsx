@@ -82,12 +82,13 @@ export default function AccountContainer(props: IAccountContainerProps) {
         ceo: ceo,
       },
     };
-    const validation = {};
-    const error = accountValidate(inputs); // 이거 하나로 내가 겪은 문제 다해결한것같은데? 리랜더링되야 useState에 적용되던거..
+
+    const error = accountValidate(inputs);
     if (Object.keys(error).length !== 0) {
       setErrors(error);
       return;
     }
+
     dispatch(createPending());
     try {
       const res = await createAccount(account);
@@ -120,13 +121,13 @@ export default function AccountContainer(props: IAccountContainerProps) {
   };
   const onDeleteAccount = useCallback(
     (_id: string, name: string) => {
-      console.log(name); // 연구용
+      // console.log(name); // 연구용
       dispatch(deleteAccount(_id));
     },
     [dispatch],
   );
 
-  if (loading) return <p>로딩중..</p>;
+  if (loading && !accounts) return <p>로딩중..</p>; // 나중에 스켈레톤 구현
   return (
     <>
       <PageHeader

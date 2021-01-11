@@ -14,6 +14,7 @@ body {
 
 }
 
+
 * {
   box-sizing: inherit;
   text-decoration: none;
@@ -31,6 +32,10 @@ html, body, #root {
 }
 h1, h2, h3 {
   color: ${font.baseFontColor};
+}
+a {
+  color: inherit;
+  text-decoration: none;
 }
 `;
 

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Axios from 'axios';
+import { togglefavoritesAccount } from '../lib/api/account';
 
 const name = 'accounts';
 
@@ -46,15 +47,12 @@ export const createAccount = createAsyncThunk(
     const res = await Axios.post('http://localhost:4000/account/add', account);
     return res.data;
   },
-);
+); // 사용안함
 
 export const favoritesAccount = createAsyncThunk(
   `${name}/favoriteAccount`,
   async ({ _id, favorites }: { _id: string; favorites: boolean }, thunkAPI) => {
-    const res = await Axios.post('http://localhost:4000/account/favorites', {
-      _id: _id,
-      favorites: favorites,
-    });
+    const res = await togglefavoritesAccount({ _id, favorites });
     return res.data;
   },
 );
